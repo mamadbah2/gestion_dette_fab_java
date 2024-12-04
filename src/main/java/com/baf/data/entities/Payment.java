@@ -1,9 +1,15 @@
 package com.baf.data.entities;
 
+import java.util.Date;
+
 public class Payment {
     int idPayment;
-    int date;
+    Date date;
     int amount;
+
+    public Payment() {
+
+    }
 
     public int getIdPayment() {
         return idPayment;
@@ -13,11 +19,11 @@ public class Payment {
         this.idPayment = idPayment;
     }
 
-    public int getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -29,7 +35,7 @@ public class Payment {
         this.amount = amount;
     }
 
-    public Payment(int date, int amount) {
+    public Payment(Date date, int amount) {
         this.date = date;
         this.amount = amount;
     }
