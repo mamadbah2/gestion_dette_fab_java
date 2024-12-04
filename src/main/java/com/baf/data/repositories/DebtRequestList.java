@@ -13,6 +13,10 @@ public class DebtRequestList {
         return debtRequests;
     }
 
+    public void setDebtRequest(DebtRequest debtRequest) {
+        debtRequests.add(debtRequest);
+    }
+
     public DebtRequest getDebtRequestByClient(Client client) {
         for (DebtRequest debtRequest : debtRequests) {
             if (debtRequest.getClient().equals(client)) {
