@@ -1,9 +1,12 @@
 package com.baf.views.impl;
 
+import java.util.Scanner;
 
 public class MenuView {
+    private static final String RETURN_OPTION = "0. Retour";
 
-    public static void Menu() {
+
+    public static void showAdminMenu() {
         System.out.println("\n=== Menu Admin ===");
         System.out.println("1. Créer un utilisateur");
         System.out.println("2. Activer/Désactiver un compte utilisateur");
@@ -11,8 +14,7 @@ public class MenuView {
         System.out.println("4. Lister les articles (filtrer par disponibilité)");
         System.out.println("5. Mettre à jour la quantité d'un article");
         System.out.println("6. Archiver les dettes soldées");
-        System.out.println("0. Retour");
-
+        System.out.println(RETURN_OPTION);
     }
 
     public static void boutiquierMenu() {
@@ -30,14 +32,17 @@ public class MenuView {
 
     }
 
-    public static void clientMenu() {
+    public static int showClientMenu() {
         System.out.println("\n=== Menu Client ===");
         System.out.println("1. Lister mes dettes non soldées");
         System.out.println("2. Faire une demande de dette");
         System.out.println("3. Lister mes demandes de dette");
         System.out.println("4. Envoyer une relance pour une demande annulée");
-        System.out.println("0. Retour");
+        System.out.println(RETURN_OPTION);
 
+        try (Scanner scanner = new Scanner(System.in)) {
+            return scanner.nextInt();
+        }
     }
 
 }

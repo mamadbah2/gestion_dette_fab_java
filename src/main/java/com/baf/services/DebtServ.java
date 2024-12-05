@@ -9,9 +9,9 @@ import com.baf.data.entities.Debt;
 public interface DebtServ extends Service<Debt> {
     void archivePaidDebt(List<Debt> debts);
 
-    List<Debt> getAllPaidDebt();
+    List<Debt> getAllPaidDebt(Client client);
 
-    List<Debt> getAllUnpaidDebt();
+    List<Debt> getAllUnpaidDebt(Client client);
 
     List<Debt> getDebtsFromClient(Client client);
 

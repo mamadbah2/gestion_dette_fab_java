@@ -16,10 +16,10 @@ public class DebtList implements DebtRepository {
     }
 
     @Override
-    public List<Debt> getAllPaidDebt() {
+    public List<Debt> getAllPaidDebt(Client client) {
         List<Debt> debtsPaid = new ArrayList<>();
         for (Debt debt : debts) {
-            if (debt.getRemainingMount() == 0) {
+            if (debt.getClient().equals(client) && debt.getRemainingMount() == 0) {
                 debtsPaid.add(debt);
             }
         }
@@ -27,10 +27,10 @@ public class DebtList implements DebtRepository {
     }
 
     @Override
-    public List<Debt> getAllUnpaidDebt() {
+    public List<Debt> getAllUnpaidDebt(Client client) {
         List<Debt> debtsUnpaid = new ArrayList<>();
         for (Debt debt : debts) {
-            if (debt.getRemainingMount() != 0) {
+            if (debt.getClient().equals(client) && debt.getRemainingMount() != 0) {
                 debtsUnpaid.add(debt);
             }
         }
