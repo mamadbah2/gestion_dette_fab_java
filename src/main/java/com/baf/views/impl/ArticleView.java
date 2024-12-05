@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import com.baf.data.entities.Article;
 import com.baf.services.ArticleService;
@@ -21,7 +21,7 @@ public class ArticleView extends ViewImpl<Article> {
                 System.out.println("Ooups !! Cet article exist deja");
                 System.out.println("veuillez réessayer");
             }
-        } while (article.getLibelle().trim() == "" || articleExist);
+        } while ("".equals(article.getLibelle().trim()) || articleExist);
 
         do {
             System.out.println("Veuillez saisir la quantite en stock");

@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import com.baf.data.entities.Client;
 import com.baf.services.ClientService;

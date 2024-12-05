@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -10,10 +10,11 @@ public class DebtView {
     private Scanner scanner;
     private DebtServImpl debtServ;
 
-    public DebtView(Scanner scanner, DebtServImpl debtServ) {
+    public DebtView(Scanner scanner, DebtServImpl detteServ) {
         this.scanner = scanner;
-        this.debtServ = debtServ;
+        this.debtServ = detteServ;
     }
+
 
     public void displayAllPaidDebts() {
         List<Debt> debts = debtServ.getAllPaidDebt();

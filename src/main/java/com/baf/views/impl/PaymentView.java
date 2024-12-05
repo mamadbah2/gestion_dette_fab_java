@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import java.util.Date;
 import java.util.Scanner;

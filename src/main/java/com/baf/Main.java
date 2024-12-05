@@ -1,25 +1,59 @@
 package com.baf;
 
+import java.util.Scanner;
+
+import com.baf.data.repositories.DebtRepository;
+import com.baf.data.repositories.list.DebtList;
+import com.baf.services.DebtServ;
+import com.baf.services.impl.DebtServImpl;
+import com.baf.views.impl.DebtView;
+
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-       int choice;
-       do {
+        DebtRepository detteRepo = new DebtList();
+        // ----------------------------------------------------------------------
+        DebtServImpl detteServ = new DebtServImpl(detteRepo);
+        // ----------------------------------------------------------------------
+        DebtView view = new DebtView(scanner, detteServ);
+        // ----------------------------------------------------------------------
+
+        int choice;
+        do {
             choice = showMainMenu();
             scanner.nextLine();
             switch (choice) {
                 case 1:
-                    
+
                     break;
                 case 2:
-                    default:
+
                     break;
-        }
+                case 3:
+                    int choiceClient = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                    do {
 
-       } while  (choice != 12);
+                        switch (choiceClient) {
+                            case 1:
+                                
+                                break;
 
-       
+                            default:
+                                System.out.println("Choix invalide, essayez encore!");
+                                break;
+                        }
+
+                    } while (choiceClient != 0);
+                    break;
+                default:
+                    break;
+            }
+
+        } while (choice != 12);
+
     }
 
     public static void showMainMenu() {
@@ -30,7 +64,7 @@ public class Main {
         System.out.println("2. Boutiquier");
         System.out.println("3. Client");
         System.out.println("0. Quitter");
-    
+
         int choice = scanner.nextInt();
         switch (choice) {
             case 1 -> adminMenu();
@@ -41,32 +75,4 @@ public class Main {
         }
     }
 
-   
-
-    public static void clientMenu() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("\n=== Menu Client ===");
-            System.out.println("1. Lister mes dettes non soldées");
-            System.out.println("2. Faire une demande de dette");
-            System.out.println("3. Lister mes demandes de dette");
-            System.out.println("4. Envoyer une relance pour une demande annulée");
-            System.out.println("0. Retour");
-    
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1 -> listMyUnsettledDebts();
-                case 2 -> makeDebtRequest();
-                case 3 -> listMyDebtRequests();
-                case 4 -> sendReminderForCancelledRequest();
-                case 0 -> {
-                    return; // Retour au menu principal
-                }
-                default -> System.out.println("Choix invalide, essayez encore !");
-            }
-        }
-    }
-    
-    
-    
 }

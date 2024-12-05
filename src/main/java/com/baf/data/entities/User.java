@@ -1,5 +1,7 @@
 package com.baf.data.entities;
 
+import com.baf.core.enums.Role;
+
 import lombok.Data;
 
 @Data
@@ -8,6 +10,6 @@ public class User {
     private String email;
     private String login;
     private String password;
-    private String role;
+    private Role role;
     private Boolean isActive;
 }

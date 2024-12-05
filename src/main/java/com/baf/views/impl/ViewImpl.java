@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import java.util.List;
 import java.util.Scanner;
