@@ -14,10 +14,10 @@ public class PaymentsServImpl implements PaymentServ {
     }
 
     public void insert(Payment payment) {
-        paymentList.setPayment(payment);
+        paymentList.insert(payment);
     }
 
     public List<Payment> selectAll() {
-        return paymentList.getPayments();
+        return paymentList.selectAll();
     }
 }

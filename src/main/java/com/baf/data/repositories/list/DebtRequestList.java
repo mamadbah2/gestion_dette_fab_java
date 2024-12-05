@@ -5,15 +5,17 @@ import java.util.List;
 
 import com.baf.data.entities.Client;
 import com.baf.data.entities.DebtRequest;
+import com.baf.data.repositories.DebtRequestRepository;
 
-public class DebtRequestList {
+public class DebtRequestList implements DebtRequestRepository {
     private List<DebtRequest> debtRequests = new ArrayList<>();
 
-    public List<DebtRequest> getDebtRequests() {
+    @Override
+    public List<DebtRequest> selectAll() {
         return debtRequests;
     }
-
-    public void setDebtRequest(DebtRequest debtRequest) {
+    @Override
+    public void insert(DebtRequest debtRequest) {
         debtRequests.add(debtRequest);
     }
 

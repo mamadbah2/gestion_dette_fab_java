@@ -1,18 +1,16 @@
 package com.baf.views;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.baf.data.entities.Article;
 import com.baf.data.entities.Debt;
-import com.baf.services.DebtServ;
+import com.baf.services.impl.DebtServImpl;
 
 public class DebtView {
     private Scanner scanner;
-    private DebtServ debtServ;
+    private DebtServImpl debtServ;
 
-    public DebtView(Scanner scanner, DebtServ debtServ) {
+    public DebtView(Scanner scanner, DebtServImpl debtServ) {
         this.scanner = scanner;
         this.debtServ = debtServ;
     }
@@ -32,7 +30,7 @@ public class DebtView {
     }
 
     public void displayAllDebts() {
-        List<Debt> debts = debtServ.getAllDebt();
+        List<Debt> debts = debtServ.selectAll();
         for (Debt debt : debts) {
             System.out.println(debt.toString());
         }
@@ -68,14 +66,14 @@ public class DebtView {
     }
 
     public void createDebt() {
-        System.out.println("Entrez les informations de la dette:");
+       /*  System.out.println("Entrez les informations de la dette:");
         System.out.println("Le montant de la dette");
         double montant = scanner.nextDouble();
         System.out.println("La date de la dettte");
         String date = scanner.next();
         System.out.println("Les articles de la dette:");
         List<Article> articles = new ArrayList<>();
-        while (scanner.hasNextLine()) {}
+        while (scanner.hasNextLine()) {} */
     }
 
 }

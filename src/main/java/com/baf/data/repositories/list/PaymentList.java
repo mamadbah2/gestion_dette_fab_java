@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baf.data.entities.Payment;
+import com.baf.data.repositories.PaymentRepository;
 
-public class PaymentList {
+public class PaymentList implements PaymentRepository {
     private List<Payment> payments = new ArrayList<>();
 
-    public List<Payment> getPayments() {
+    @Override
+    public List<Payment> selectAll() {
         return payments;
     }
 
-    public void setPayment(Payment payment) {
+    @Override
+    public void insert(Payment payment) {
         payments.add(payment);
     }
 }

@@ -14,10 +14,10 @@ public class DebtRequestServImpl implements DebtRequestServ {
     }
 
     public void insert(DebtRequest debtRequest) {
-        debtRequestList.setDebtRequest(debtRequest);
+        debtRequestList.insert(debtRequest);
     }
 
     public List<DebtRequest> selectAll() {
-        return debtRequestList.getDebtRequests();
+        return debtRequestList.selectAll();
     }
 }
