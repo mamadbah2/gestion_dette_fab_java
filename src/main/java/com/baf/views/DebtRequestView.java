@@ -1,18 +1,18 @@
 package com.baf.views;
 
-import java.util.Scanner;
-
 import com.baf.data.entities.DebtRequest;
+import com.baf.services.DebtRequestServ;
 
-public class DebtRequestView {
-    private Scanner scanner;
+public class DebtRequestView extends ViewImpl<DebtRequest> {
 
-    public DebtRequestView(Scanner scanner) {
-        this.scanner = scanner;
+    private DebtRequestServ debtRequestServ;
+
+    public DebtRequestView(DebtRequestServ debtRequestServ) {
+        this.debtRequestServ = debtRequestServ;
     }
 
-    public DebtRequest saisiDebtRequest() {
-        
+    @Override
+    public DebtRequest saisie() {
         return null;
     }
     

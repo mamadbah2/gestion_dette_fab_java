@@ -1,0 +1,28 @@
+package com.baf.data.repositories.list;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.baf.data.entities.Client;
+import com.baf.data.entities.DebtRequest;
+
+public class DebtRequestList {
+    private List<DebtRequest> debtRequests = new ArrayList<>();
+
+    public List<DebtRequest> getDebtRequests() {
+        return debtRequests;
+    }
+
+    public void setDebtRequest(DebtRequest debtRequest) {
+        debtRequests.add(debtRequest);
+    }
+
+    public DebtRequest getDebtRequestByClient(Client client) {
+        for (DebtRequest debtRequest : debtRequests) {
+            if (debtRequest.getClient().equals(client)) {
+                return debtRequest;
+            }
+        }
+        return null;
+    }
+}

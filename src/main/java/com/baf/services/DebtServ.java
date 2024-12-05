@@ -7,9 +7,9 @@ import com.baf.data.entities.Debt;
 import com.baf.data.repositories.interfaces.DebtInterf;
 
 public class DebtServ {
-    private DebtInterf debtInterf;
+    private DebtRepository debtInterf;
 
-    public DebtServ(DebtInterf debtInterf) {
+    public DebtServ(DebtRepository debtInterf) {
         this.debtInterf = debtInterf;
     }
 

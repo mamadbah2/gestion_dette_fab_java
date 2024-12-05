@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.baf.data.entities.Payment;
 
-public class PaymentView {
+public class PaymentView extends ViewImpl<Payment> {
     private Scanner scanner;
      
 
@@ -13,8 +13,9 @@ public class PaymentView {
         this.scanner = scanner;
     }
 
-    public Payment saisiePayment() {
-        // Étape 1 : Lister les dettes non soldées
+    @Override
+    public Payment saisie() {
+       // Étape 1 : Lister les dettes non soldées
 
         // Étape 2 : Sélectionner une dette
         System.out.println("Sélectionner une dette : ");

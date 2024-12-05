@@ -1,7 +1,7 @@
 package com.baf.services;
 
 import com.baf.core.Service;
-import com.baf.entity.Client;
+import com.baf.data.entities.Client;
 
 
 public interface ClientService extends Service<Client>{

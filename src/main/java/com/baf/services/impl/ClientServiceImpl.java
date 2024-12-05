@@ -2,8 +2,8 @@ package com.baf.services.impl;
 
 import java.util.List;
 
-import com.baf.entity.Client;
-import com.baf.repositories.ClientRepository;
+import com.baf.data.entities.Client;
+import com.baf.data.repositories.ClientRepository;
 import com.baf.services.ClientService;
 
 public class ClientServiceImpl  implements ClientService{

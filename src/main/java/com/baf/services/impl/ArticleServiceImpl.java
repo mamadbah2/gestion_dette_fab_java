@@ -2,8 +2,8 @@ package com.baf.services.impl;
 
 import java.util.List;
 
-import com.baf.entity.Article;
-import com.baf.repositories.ArticleRepository;
+import com.baf.data.entities.Article;
+import com.baf.data.repositories.ArticleRepository;
 import com.baf.services.ArticleService;
 
 public class ArticleServiceImpl  implements ArticleService{
