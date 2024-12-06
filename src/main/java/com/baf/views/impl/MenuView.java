@@ -3,18 +3,29 @@ package com.baf.views.impl;
 import java.util.Scanner;
 
 public class MenuView {
+    
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static int adminMenu() {
+
     private static final String RETURN_OPTION = "0. Retour";
 
 
     public static void showAdminMenu() {
         System.out.println("\n=== Menu Admin ===");
-        System.out.println("1. Créer un utilisateur");
-        System.out.println("2. Activer/Désactiver un compte utilisateur");
-        System.out.println("3. Créer un article");
-        System.out.println("4. Lister les articles (filtrer par disponibilité)");
-        System.out.println("5. Mettre à jour la quantité d'un article");
-        System.out.println("6. Archiver les dettes soldées");
-        System.out.println(RETURN_OPTION);
+        System.out.println("1. Créer un compte utilisateur à un client n’ayant pas de compte");
+        System.out.println("2. Créer un compte utilisateur avec un rôle Boutiquier ou  Admin");
+        System.out.println("3. Désactiver/Activer  un compte utilisateur");
+        System.out.println("4. Afficher les comptes utilisateurs  actifs ou par rôle");
+        System.out.println("5. Creer un article");
+        System.out.println("6. Liste des articles");
+        System.out.println("7. Afficher les articles disponibles");
+        System.out.println("8. Mettre à jour la quantité en stock d’un article");
+        System.out.println("9. Archiver les dettes soldées");
+        System.out.println("10. Retour");
+        System.out.println("Veillez choisir : ");
+        return scanner.nextInt();
+
     }
 
     public static void boutiquierMenu() {

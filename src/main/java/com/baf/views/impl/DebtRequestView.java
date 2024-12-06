@@ -13,6 +13,7 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
 
     @Override
     public DebtRequest saisie() {
+        
         return null;
     }
     

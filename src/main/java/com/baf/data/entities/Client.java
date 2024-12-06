@@ -10,6 +10,7 @@ public class Client {
     private String adresse;
     private Date createAt;
     private Date updatetAt;
+    private User userAccount;
 
     // private String 
 }

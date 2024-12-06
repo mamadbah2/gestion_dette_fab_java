@@ -51,12 +51,13 @@ public class DebtView {
         List<Debt> dettes = debtServ.getAllPaidDebt(client);
         if (dettes.isEmpty()) {
             System.out.println("Aucune dette n'a ete payee");
+            return;
         }
         for (Debt dette : dettes) {
             System.out.println(dette.toString());
         }
 
-        System.out.println("voulez-vous les archiver toutes?");
+        System.out.println("voulez-vous les archiver toutes? (oui/non)");
         String reponse = scanner.nextLine();
         if (reponse.equalsIgnoreCase("oui")) {
             debtServ.archivePaidDebt(dettes);
@@ -71,6 +72,8 @@ public class DebtView {
             } else {
                 System.out.println("Aucune dette avec l'ID " + idDebt + " trouvee");
             }
+        } else {
+            System.out.println("Reponse invalide");
         }
 
     }

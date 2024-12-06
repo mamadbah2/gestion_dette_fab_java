@@ -1,5 +1,7 @@
 package com.baf.views.impl;
 
+import java.util.List;
+
 import com.baf.data.entities.Client;
 import com.baf.services.ClientService;
 
@@ -34,6 +36,22 @@ public class ClientView extends ViewImpl<Client>{
             client.setAdresse(scanner.nextLine());
         } while (client.getAdresse() == "");
         return client;
+    }
+
+    // Lister les clients n'ayant pas de compte
+    public String showClientWhitoutAccount() {
+        List<Client> allClients = clientServices.selectAll();
+        if (allClients.isEmpty()) {
+            System.out.println("Aucun client n'est enregistre");
+            return null;
+        }
+        for (int i = 0; i < allClients.size(); i++) {
+            if (allClients.get(i).getUserAccount() != null) {
+                System.out.println(i + " - " + allClients.get(i).toString());
+            }
+        }
+        System.out.print("Votre choix : ");
+        return scanner.nextLine();
     }
     
 }
