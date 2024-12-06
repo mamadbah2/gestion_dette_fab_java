@@ -53,5 +53,15 @@ public class ClientView extends ViewImpl<Client>{
         System.out.print("Votre choix : ");
         return scanner.nextLine();
     }
+
+    public Client findClientByTel()  {
+        System.out.println("Veuillez saisir le telephone du client");
+        String telephone = scanner.nextLine();
+        Client client = clientServices.selectByTel(telephone);
+        if (client == null) {
+            System.out.println("Ce client n'existe pas");
+        }
+        return client;
+    }
     
 }

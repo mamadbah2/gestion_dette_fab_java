@@ -6,8 +6,6 @@ public class MenuView {
     
     private static Scanner scanner = new Scanner(System.in);
 
-    private static final String RETURN_OPTION = "0. Retour";
-
 
     public static int adminMenu() {
         System.out.println("\n=== Menu Admin ===");
@@ -47,11 +45,9 @@ public class MenuView {
         System.out.println("2. Faire une demande de dette");
         System.out.println("3. Lister mes demandes de dette");
         System.out.println("4. Envoyer une relance pour une demande annulée");
-        System.out.println(RETURN_OPTION);
-
-        try (Scanner scanner = new Scanner(System.in)) {
-            return scanner.nextInt();
-        }
+        System.out.println("0. Retour");
+        System.out.println("Veillez choisir : ");
+        return scanner.nextInt();
     }
 
 }

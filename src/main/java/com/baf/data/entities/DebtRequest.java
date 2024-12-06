@@ -1,14 +1,19 @@
 package com.baf.data.entities;
 
+import java.util.Date;
 import java.util.List;
 
 public class DebtRequest {
     int idDebtRequest;
-    int date;
+    Date date;
     Client client;
     List<Article> articles;
-    boolean status;
+    String status;
+    int nbre = 0;
 
+    public DebtRequest() {
+        idDebtRequest = nbre++;
+    }
     public int getIdDebtRequest() {
         return idDebtRequest;
     }
@@ -17,11 +22,11 @@ public class DebtRequest {
         this.idDebtRequest = idDebtRequest;
     }
 
-    public int getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -41,15 +46,19 @@ public class DebtRequest {
         this.articles = articles;
     }
 
-    public boolean isStatus() {
+    public String isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public DebtRequest(int idDebtRequest, int date, Client client, List<Article> articles, boolean status) {
+    public String getStatus() {
+        return status;
+    }
+
+    public DebtRequest(int idDebtRequest, Date date, Client client, List<Article> articles, String status) {
         this.idDebtRequest = idDebtRequest;
         this.date = date;
         this.client = client;

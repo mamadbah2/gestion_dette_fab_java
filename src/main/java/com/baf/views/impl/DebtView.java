@@ -15,10 +15,14 @@ public class DebtView {
     private DebtServ debtServ;
     private ArticleService articleService;
     private ArticleView articleView;
+    private ClientView clientView;
 
-    public DebtView(Scanner scanner, DebtServ detteServ) {
+    public DebtView(Scanner scanner, DebtServ detteServ, ClientView clientView, ArticleService articleService, ArticleView articleView) {
         this.scanner = scanner;
         this.debtServ = detteServ;
+        this.clientView = clientView;
+        this.articleService = articleService;
+        this.articleView = articleView;
     }
 
     // public void displayAllPaidDebts(Client client) {
@@ -30,12 +34,20 @@ public class DebtView {
     //     }
     // }
 
-    public void displayAllUnpaidDebts(Client client) {
+
+
+    public void displayAllUnpaidDebts() {
+        Client client = clientView.findClientByTel();
+        if (client == null) {
+            return;
+        }
         List<Debt> debts = debtServ.getAllUnpaidDebt(client);
+        if (debts.isEmpty()) {
+            System.out.println("Aucune dette impayée pour le client ");
+            return;
+        }
         for (Debt debt : debts) {
-            if (debt.getClient().equals(client)) {
-                System.out.println(debt.toString());
-            }
+            System.out.println(debt.toString());
         }
     }
 
@@ -79,10 +91,17 @@ public class DebtView {
     }
 
     public void createDebt() {
-        System.out.println("Entrez les informations de la dette:");
+        System.out.println("Indentifie toi");
+        Client client = clientView.findClientByTel();
+        if (client == null) {
+            System.out.println("Client non trouvé");
+            return;
+        }
+
+        System.out.println("Entrez les informations de la dette");
     
         // Entrée pour le montant
-        System.out.println("Le montant de la dette:");
+        System.out.println("Le montant de la dette");
         double montant = scanner.nextDouble();
         scanner.nextLine(); // Consomme le retour à la ligne
     
@@ -132,6 +151,7 @@ public class DebtView {
         debt.setMount(montant);
         debt.setDate(date);
         debt.setArticles(selectedArticles);
+        debt.setClient(client);
     
         // Sauvegarde de la dette
         debtServ.insert(debt);

@@ -8,20 +8,25 @@ import com.baf.data.entities.User;
 import com.baf.data.repositories.ArticleRepository;
 import com.baf.data.repositories.ClientRepository;
 import com.baf.data.repositories.DebtRepository;
+import com.baf.data.repositories.DebtRequestRepository;
 import com.baf.data.repositories.UserRepository;
 import com.baf.data.repositories.list.ArticleRepositoryImplList;
 import com.baf.data.repositories.list.ClientRepositoryImplList;
 import com.baf.data.repositories.list.DebtList;
+import com.baf.data.repositories.list.DebtRequestList;
 import com.baf.data.repositories.list.UserList;
 import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
+import com.baf.services.DebtRequestServ;
 import com.baf.services.UserServ;
 import com.baf.services.impl.ArticleServiceImpl;
 import com.baf.services.impl.ClientServiceImpl;
+import com.baf.services.impl.DebtRequestServImpl;
 import com.baf.services.impl.DebtServImpl;
 import com.baf.services.impl.UserServImpl;
 import com.baf.views.impl.ArticleView;
 import com.baf.views.impl.ClientView;
+import com.baf.views.impl.DebtRequestView;
 import com.baf.views.impl.DebtView;
 import com.baf.views.impl.MenuView;
 import com.baf.views.impl.UserView;
@@ -34,16 +39,20 @@ public class Main {
         UserRepository userRepo = new UserList();
         ClientRepository clientRepo = new ClientRepositoryImplList();
         ArticleRepository articleRepo = new ArticleRepositoryImplList();
+        DebtRequestRepository detteRequestRepo = new DebtRequestList();
         // ----------------------------------------------------------------------
         DebtServImpl detteServ = new DebtServImpl(detteRepo);
         UserServ userServ = new UserServImpl(userRepo);
         ClientService clientService = new ClientServiceImpl(clientRepo);
         ArticleService articleService = new ArticleServiceImpl(articleRepo);
+        DebtRequestServ detteRequestServ = new DebtRequestServImpl(detteRequestRepo);
         // ----------------------------------------------------------------------
-        DebtView view = new DebtView(scanner, detteServ);
+        
         ClientView clientView = new ClientView(clientService);
         ArticleView articleView = new ArticleView(articleService);
         UserView userView = new UserView(scanner, userServ, clientView, clientService);
+        DebtRequestView detteRequestView = new DebtRequestView(articleView, articleService, clientView);
+        DebtView view = new DebtView(scanner, detteServ,  clientView, articleService, articleView);
         // ----------------------------------------------------------------------
 
         int choice;
@@ -121,23 +130,48 @@ public class Main {
 
                     break;
                 case 3:
+                    // Cases pour le client
                     int choiceClient = MenuView.showClientMenu();
-                    scanner.nextLine();
                     do {
                         switch (choiceClient) {
                             case 1:
-                                System.out.println("Entrez votre numero de telephone");
-                                String tel = scanner.nextLine();
-                                Client client = clientService.selectByTel(tel);
-                                if (client != null) {
-                                    view.displayAllUnpaidDebts(client);
-                                }
+                                // Lister mes dettes non soldées
+                                view.displayAllUnpaidDebts();
                                 break;
                             case 2:
+                                // Faire une demande de dette
+                                detteRequestServ.insert(detteRequestView.saisie());
                                 break;
                             case 3:
+                                // Lister mes demandes de dette avec option de filtre
+                                Client client = clientView.findClientByTel();
+                                if (client == null) {
+                                    System.out.println("Client non trouvé");
+                                    break;
+                                }
+                                detteRequestView.liste(detteRequestServ.selectAll());
+                                int subChoiceFilter = detteRequestView.subMenuFilter();
+                                do {
+                                    switch (subChoiceFilter) {
+                                        case 1:
+                                            detteRequestView.liste(detteRequestServ.selectPendingRequestsForCl(client));
+                                            break;
+                                        case 2:
+                                            detteRequestView.liste(detteRequestServ.selectCanceledRequestsForCl(client));
+                                            break;
+                                        case 0:
+                                            System.out.println("Retour");
+                                            break;
+                                        default:
+                                            System.out.println("Option non existante");
+                                            break;
+                                    }
+                                } while (subChoiceFilter != 0);
                                 break;
                             case 4:
+                                // Envoyer une relance pour une demande annulée
+                                System.out.println("Pour faire une relance veillez selectionner l'option 2 Faire une demande de dette");
+                                System.out.println("Merci pour votre comprehension");
                                 break;
                             case 0:
                                 System.out.println("Au revoir !");
