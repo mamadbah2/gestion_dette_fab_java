@@ -7,7 +7,7 @@ import com.baf.data.entities.Client;
 import com.baf.data.entities.Debt;
 
 public interface DebtRepository extends Repository<Debt> {
-    public List<Debt> getAllPaidDebt(Client client);
+    public List<Debt> getAllPaidDebt();
     public List<Debt> getAllUnpaidDebt(Client client);
     public void archivePaidDebt(List<Debt> debts);
     public List<Debt> getDebtsFromClient( Client client);

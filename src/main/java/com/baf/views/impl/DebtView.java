@@ -21,14 +21,14 @@ public class DebtView {
         this.debtServ = detteServ;
     }
 
-    public void displayAllPaidDebts(Client client) {
-        List<Debt> debts = debtServ.getAllPaidDebt(client);
-        for (Debt debt : debts) {
-            if (debt.getClient().equals(client)) {
-                System.out.println(debt.toString());
-            }
-        }
-    }
+    // public void displayAllPaidDebts(Client client) {
+    //     List<Debt> debts = debtServ.getAllPaidDebt();
+    //     for (Debt debt : debts) {
+    //         if (debt.getClient().equals(client)) {
+    //             System.out.println(debt.toString());
+    //         }
+    //     }
+    // }
 
     public void displayAllUnpaidDebts(Client client) {
         List<Debt> debts = debtServ.getAllUnpaidDebt(client);
@@ -46,9 +46,9 @@ public class DebtView {
         }
     }
 
-    public void archivePaidDebts(Client client) {
+    public void archivePaidDebts() {
         System.out.println("Voici la liste des dettes payees...");
-        List<Debt> dettes = debtServ.getAllPaidDebt(client);
+        List<Debt> dettes = debtServ.getAllPaidDebt();
         if (dettes.isEmpty()) {
             System.out.println("Aucune dette n'a ete payee");
             return;

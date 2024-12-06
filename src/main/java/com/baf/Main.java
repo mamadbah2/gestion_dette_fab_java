@@ -3,34 +3,28 @@ package com.baf;
 import java.util.Scanner;
 
 import com.baf.data.entities.Article;
+import com.baf.data.entities.Client;
 import com.baf.data.entities.User;
 import com.baf.data.repositories.ArticleRepository;
-import com.baf.data.repositories.ClientRepository;
-import com.baf.data.entities.Client;
 import com.baf.data.repositories.ClientRepository;
 import com.baf.data.repositories.DebtRepository;
 import com.baf.data.repositories.UserRepository;
 import com.baf.data.repositories.list.ArticleRepositoryImplList;
-import com.baf.data.repositories.list.ClientRepositoryImplList;
 import com.baf.data.repositories.list.ClientRepositoryImplList;
 import com.baf.data.repositories.list.DebtList;
 import com.baf.data.repositories.list.UserList;
 import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
 import com.baf.services.UserServ;
-import com.baf.services.ClientService;
 import com.baf.services.impl.ArticleServiceImpl;
-import com.baf.services.impl.ClientServiceImpl;
 import com.baf.services.impl.ClientServiceImpl;
 import com.baf.services.impl.DebtServImpl;
 import com.baf.services.impl.UserServImpl;
 import com.baf.views.impl.ArticleView;
 import com.baf.views.impl.ClientView;
-import com.baf.views.impl.ClientView;
 import com.baf.views.impl.DebtView;
 import com.baf.views.impl.MenuView;
 import com.baf.views.impl.UserView;
-import com.baf.views.impl.MenuView;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
@@ -127,7 +121,32 @@ public class Main {
 
                     break;
                 case 3:
+                    int choiceClient = MenuView.showClientMenu();
+                    scanner.nextLine();
+                    do {
+                        switch (choiceClient) {
+                            case 1:
+                                System.out.println("Entrez votre numero de telephone");
+                                String tel = scanner.nextLine();
+                                Client client = clientService.selectByTel(tel);
+                                if (client != null) {
+                                    view.displayAllUnpaidDebts(client);
+                                }
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 0:
+                                System.out.println("Au revoir !");
+                            default:
+                                System.out.println("Choix invalide, essayez encore!");
+                                break;
+                        }
 
+                    } while (choiceClient != 0);
                     break;
                 default:
                     break;

@@ -18,8 +18,8 @@ public class DebtServImpl implements DebtServ {
         debtRepo.archivePaidDebt(debts);
     }
 
-    public List<Debt> getAllPaidDebt(Client client) {
-        return debtRepo.getAllPaidDebt(client);
+    public List<Debt> getAllPaidDebt() {
+        return debtRepo.getAllPaidDebt();
     }
 
     public List<Debt> getAllUnpaidDebt(Client client) {

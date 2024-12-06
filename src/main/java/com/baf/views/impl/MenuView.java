@@ -6,12 +6,10 @@ public class MenuView {
     
     private static Scanner scanner = new Scanner(System.in);
 
-    public static int adminMenu() {
-
     private static final String RETURN_OPTION = "0. Retour";
 
 
-    public static void showAdminMenu() {
+    public static int adminMenu() {
         System.out.println("\n=== Menu Admin ===");
         System.out.println("1. Créer un compte utilisateur à un client n’ayant pas de compte");
         System.out.println("2. Créer un compte utilisateur avec un rôle Boutiquier ou  Admin");
