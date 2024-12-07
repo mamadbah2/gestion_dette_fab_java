@@ -62,15 +62,16 @@ public class Main {
         PaymentView paimentView = new PaymentView(scanner, debtServ, debtView);
 
         int choice;
-        int choiceMenu;
-
         do {
             choice = showMainMenu();
             scanner.nextLine();
             switch (choice) {
                 case 1:
-                    choiceMenu = MenuView.boutiquierMenu();
+                    break;
+                case 2:
+                    int choiceMenu;
                     do {
+                        choiceMenu = MenuView.boutiquierMenu();
                         switch (choiceMenu) {
                             case 1:
                                 clientService.insert(clientView.saisie());
@@ -79,8 +80,9 @@ public class Main {
                                 clientView.filtre(clientService.selectAll());
                                 break;
                             case 3:
-                                System.out.println("Veuillez saisir le numero de telephone du client");
+                                System.out.println("Liste de tous les clients");
                                 clientView.liste(clientService.selectAll());
+                                System.out.println("Veillez entrer le numero de tel");
                                 String tel = scanner.nextLine();
                                 Client client = clientService.selectByTel(tel.trim());
                                 if (client != null) {
@@ -96,7 +98,7 @@ public class Main {
                                 paymentServ.insert(paimentView.saisie());
                                 break;
                             case 6:
-                               debtView.showDetteByClient();
+                                debtView.showDetteByClient();
                                 break;
                             // case 2:
                             // System.out.println("Veuillez saisir le numero de telephone du client");
@@ -116,19 +118,24 @@ public class Main {
                             // clientView.show(client);
                             // }
                             // break;
-
+                            case 0:
+                                System.out.println("Retour au menu login");
+                                break;
                             default:
                                 break;
                         }
 
                     } while (choiceMenu != 0);
                     break;
-                case 2:
+                case 3:
+
+                    break;
                 default:
+                    System.out.println("Choix invalide, essayez encore !");
                     break;
             }
 
-        } while (choice != 12);
+        } while (choice != 0);
 
     }
 

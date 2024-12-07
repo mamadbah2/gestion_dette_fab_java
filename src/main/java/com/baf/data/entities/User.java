@@ -12,4 +12,9 @@ public class User {
     private String password;
     private Role role;
     private Boolean isActive;
+    private int nbre;
+    public User () {
+        this.idUser = nbre++;
+    }
+    
 }

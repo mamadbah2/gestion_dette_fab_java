@@ -40,10 +40,9 @@ public class ClientView extends ViewImpl<Client> {
             client.setAdresse(scanner.nextLine());
         } while (client.getAdresse() == "");
 
-        System.out.println("Voullez-vous ajouter un compte a ce client ? O/N");
+        System.out.println("Voulez-vous ajouter un compte a ce client ? O/N");
         String ok = scanner.nextLine().trim();
-
-        if (ok.toUpperCase() == "O") {
+        if (ok.toUpperCase().equals("O")) {
             User user = userView.saisie();
             if (user != null) {
                 client.setUser(user);
@@ -52,23 +51,30 @@ public class ClientView extends ViewImpl<Client> {
         return client;
     }
 
-    public List<Client> filtre( List<Client> clients) {
-        List<Client> listeFiltrer = new ArrayList<>();
-
+    public void filtre( List<Client> clients) {
         int choix = obtenirChoix();
 
         for (Client client : clients) {
-            if (choix == 1 && client.getUser() != null) {
-                listeFiltrer.add(client);
-            } else if (choix == 2 && client.getUser() == null) {
-                listeFiltrer.add(client);
+            if (client != null) {
+                switch (choix) {
+                    case 1:
+                        if (client.getUser() != null) {
+                            System.out.println(client.toString());
+                        }
+                        break;
+                    case 2:
+                        if (client.getUser() == null) {
+                            System.out.println(client.toString());
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-
-        return listeFiltrer;
     }
 
-    public int obtenirChoix() {
+    private int obtenirChoix() {
         System.out.println("Veuillez choisir une option :");
         System.out.println("1- Avec compte");
         System.out.println("2- Sans compte");

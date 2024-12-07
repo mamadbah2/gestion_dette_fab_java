@@ -22,6 +22,17 @@ public class UserView  extends ViewImpl<User>{
         User user = new User();
         boolean userExist = true;
         do {
+            System.out.println("Veuillez saisir votre email ");
+            user.setEmail(scanner.nextLine());
+            userExist = userServ.selectByMail(user.getEmail()) != null;
+            if (userExist) {
+                System.out.println("Ooups !! Ce mail exist deja");
+                System.out.println("veuillez réessayer");
+            }
+        } while (userExist);
+        
+        userExist = true;
+        do {
             System.out.println("Veuillez saisir le login ");
             user.setLogin(scanner.nextLine());
             userExist = userServ.selectByLogin(user.getLogin()) != null;
@@ -30,16 +41,19 @@ public class UserView  extends ViewImpl<User>{
                 System.out.println("veuillez réessayer");
             }
         } while (userExist);
-        user.setRole(getRole());
+        user.setRole(Role.CLIENT);
         do {
             System.out.println("Veuillez saisir le password");
             user.setPassword(PasswordHashing.hashPassword(scanner.nextLine()));
         } while (user.getPassword().trim() == "");
+        user.setIsActive(true);
         return user;
     }
 
+    
 
-    public Role getRole() {
+
+    private Role getRole() {
         int choice = 0;
         do {
             System.out.println("Veuillez choisir le rôle");

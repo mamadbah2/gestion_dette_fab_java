@@ -37,8 +37,12 @@ public class UserServImpl implements UserServ {
 
     @Override
     public User selectByLogin(String login) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectByLogin'");
+        return userRepo.selectByLogin(login);
+    }
+
+    @Override
+    public User selectByMail(String mail) {
+        return userRepo.selectByMail(mail);
     }
 
 }

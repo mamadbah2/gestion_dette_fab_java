@@ -100,6 +100,10 @@ public class DebtView extends ViewImpl<Debt> {
         debt.setDate(new java.util.Date());
         Client client = new Client();
         List<Article> articles = articleService.selectAll();
+        if (articles.isEmpty()) {
+            System.out.println("Aucun article disponible pour prendre une dette");
+            return null;
+        }
         List<Article> filteredArticles = articleService.selectAll().stream()
                 .filter(art -> art.getQteStock() > 0)
                 .collect(Collectors.toList());
@@ -128,6 +132,7 @@ public class DebtView extends ViewImpl<Debt> {
 
             } else {
                 System.out.println("Cet article n'existe pas");
+                break;
             }
 
             System.out.println("Voulez-vous ajouter un autre article? (oui/non)");

@@ -51,4 +51,14 @@ public class UserList implements UserRepository {
         return null;
     }
 
+    @Override
+    public User selectByMail(String mail) {
+        for (User u : users) {
+            if (u.getEmail() == mail) {
+                return u;
+            }
+        }
+        return null;
+    }
+
 }
