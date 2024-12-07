@@ -3,12 +3,10 @@ package com.baf.views.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
 import com.baf.data.entities.Debt;
-import com.baf.data.entities.Payment;
 import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
 import com.baf.services.DebtServ;
@@ -113,8 +111,8 @@ public class DebtView extends ViewImpl<Debt> {
         scanner.nextLine(); // Consomme le retour à la ligne
     
         // Entrée pour la date
-        System.out.println("La date de la dette (format YYYY-MM-DD):");
-        String date = scanner.nextLine();
+        // System.out.println("La date de la dette (format YYYY-MM-DD):");
+        // String date = scanner.nextLine();
     
         // Affichage des articles disponibles
         System.out.println("Les articles de la dette:");
@@ -156,13 +154,43 @@ public class DebtView extends ViewImpl<Debt> {
         // Exemple de création d'une dette
         Debt debt = new Debt();
         debt.setMount(montant);
-        debt.setDate(date);
         debt.setArticles(selectedArticles);
         debt.setClient(client);
     
         // Sauvegarde de la dette
         debtServ.insert(debt);
         System.out.println("La dette a été créée avec succès !");
+    }
+
+    public void showDetteByClient() {
+        System.out.println("Veuillez saisir le numero de telephone du client");
+        clientView.liste(clientService.selectAll());
+        String tel = scanner.nextLine();
+        Client client = clientService.selectByTel(tel);
+        if (client != null) {
+            List<Debt> dettes = debtServ.getDebtsFromClient(client);
+            for (Debt dette : dettes) {
+                System.out.println(dette.toString());
+                System.out.println("Voulez-vous afficher les articles? (oui/non)");
+                String reponse = scanner.nextLine();
+                if (reponse.equalsIgnoreCase("oui")) {
+                    dette.getArticles().forEach(a -> System.out.println(a.toString()));
+                }
+                System.out.println("Voulez-vous afficher les paiements? (oui/non)");
+                reponse = scanner.nextLine();
+                if (reponse.equalsIgnoreCase("oui")) {
+                    dette.getPayments().forEach(p -> System.out.println(p.toString()));
+                }
+            }
+        } else {
+            System.out.println("Ce client n'existe pas");
+        }
+    }
+
+    @Override
+    public Debt saisie() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saisie'");
     }
     
 

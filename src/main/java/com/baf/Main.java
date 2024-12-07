@@ -4,31 +4,34 @@ import java.util.Scanner;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
-import com.baf.data.entities.Debt;
-import com.baf.data.entities.Payment;
 import com.baf.data.entities.User;
 import com.baf.data.repositories.ArticleRepository;
 import com.baf.data.repositories.ClientRepository;
 import com.baf.data.repositories.DebtRepository;
+import com.baf.data.repositories.DebtRequestRepository;
 import com.baf.data.repositories.PaymentRepository;
 import com.baf.data.repositories.UserRepository;
 import com.baf.data.repositories.list.ArticleRepositoryImplList;
 import com.baf.data.repositories.list.ClientRepositoryImplList;
 import com.baf.data.repositories.list.DebtList;
+import com.baf.data.repositories.list.DebtRequestList;
 import com.baf.data.repositories.list.PaymentList;
 import com.baf.data.repositories.list.UserList;
 import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
+import com.baf.services.DebtRequestServ;
 import com.baf.services.DebtServ;
 import com.baf.services.PaymentServ;
 import com.baf.services.UserServ;
 import com.baf.services.impl.ArticleServiceImpl;
 import com.baf.services.impl.ClientServiceImpl;
+import com.baf.services.impl.DebtRequestServImpl;
 import com.baf.services.impl.DebtServImpl;
 import com.baf.services.impl.PaymentsServImpl;
 import com.baf.services.impl.UserServImpl;
 import com.baf.views.impl.ArticleView;
 import com.baf.views.impl.ClientView;
+import com.baf.views.impl.DebtRequestView;
 import com.baf.views.impl.DebtView;
 import com.baf.views.impl.MenuView;
 import com.baf.views.impl.PaymentView;
@@ -45,6 +48,7 @@ public class Main {
         ArticleRepository articleRepository = new ArticleRepositoryImplList();
         DebtRepository debtRepository = new DebtList();
         PaymentRepository paymentRepository = new PaymentList();
+        DebtRequestRepository debtRequestRepository = new DebtRequestList();
 
         // ----------------------------Services--------------------------------
         ClientService clientService = new ClientServiceImpl(clientRepository);
@@ -52,14 +56,16 @@ public class Main {
         ArticleService articleService = new ArticleServiceImpl(articleRepository);
         DebtServ debtServ = new DebtServImpl(debtRepository);
         PaymentServ paymentServ = new PaymentsServImpl(paymentRepository);
-
+        DebtRequestServ detteRequestServ = new DebtRequestServImpl(debtRequestRepository);
         // ----------------------------Vues-------------------------------------
-        UserView userView = new UserView(scanner, userServ);
+        UserView userView = new UserView(scanner, userServ, clientService);
         ClientView clientView = new ClientView(clientService, userView);
         ArticleView articleView = new ArticleView(articleService);
         DebtView debtView = new DebtView(scanner, debtServ, articleService, articleView, paymentServ, clientService,
                 clientView);
         PaymentView paimentView = new PaymentView(scanner, debtServ, debtView);
+        DebtRequestView detteRequestView = new DebtRequestView(articleView, articleService, clientView);
+
 
         int choice;
         do {
@@ -73,7 +79,8 @@ public class Main {
                         switch (choiceAdmin) {
                             case 1:
                                 // Creer un user account pour un en ayant pas
-                                User userWhithAccount = userView.createUserForClient();
+                                String surnameClient = clientView.showClientWhitoutAccount();
+                                User userWhithAccount = userView.createUserForClient(surnameClient);
                                 userServ.insert(userWhithAccount);
                                 break;
                             case 2:
@@ -120,7 +127,7 @@ public class Main {
                                 break;
                             case 9:
                                 // Archiver les dettes soldées
-                                view.archivePaidDebts();
+                                debtView.archivePaidDebts();
                                 break;
                             case 10:
                                 // Quitter
@@ -198,7 +205,7 @@ public class Main {
                         switch (choiceClient) {
                             case 1:
                                 // Lister mes dettes non soldées
-                                view.displayAllUnpaidDebts();
+                                debtView.displayAllUnpaidDebts();
                                 break;
                             case 2:
                                 // Faire une demande de dette

@@ -32,7 +32,7 @@ public class ArticleView extends ViewImpl<Article> {
 
         do {
             System.out.println("Veuillez saisir le prix");
-            article.setPrix(scanner.nextDouble());
+            article.setPrix(scanner.nextInt());
 
         } while (article.getPrix() < 0);
         return article;

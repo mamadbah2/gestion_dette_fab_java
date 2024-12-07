@@ -9,7 +9,7 @@ import lombok.Data;
 public class Debt {
     private int idDebt;
     private Double mount; 
-    private Date date;
+    private Date date = new Date();
     private Double paidMount; 
     private Double remainingMount;
     private boolean isAchieved ;

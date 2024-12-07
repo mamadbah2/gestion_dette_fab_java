@@ -1,6 +1,5 @@
 package com.baf.views.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.baf.data.entities.Client;
@@ -75,6 +74,43 @@ public class ClientView extends ViewImpl<Client> {
             System.out.println("Ce client n'existe pas");
         }
         return client;
+    }
+
+    public void filtre( List<Client> clients) {
+        int choix = obtenirChoix();
+
+        for (Client client : clients) {
+            if (client != null) {
+                switch (choix) {
+                    case 1:
+                        if (client.getUser() != null) {
+                            System.out.println(client.toString());
+                        }
+                        break;
+                    case 2:
+                        if (client.getUser() == null) {
+                            System.out.println(client.toString());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    private int obtenirChoix() {
+        System.out.println("Veuillez choisir une option :");
+        System.out.println("1- Avec compte");
+        System.out.println("2- Sans compte");
+        int choix = -1;
+        while (choix != 1 && choix != 2) {
+            choix = scanner.nextInt();
+            if (choix != 1 && choix != 2) {
+                System.out.println("Choix invalide. Veuillez réessayer.");
+            }
+        }
+        return choix;
     }
     
 }

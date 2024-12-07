@@ -3,7 +3,7 @@ package com.baf.views.impl;
 import java.util.List;
 import java.util.Scanner;
 
-import com.baf.core.PasswordHashing;
+// import com.baf.core.PasswordHashing;
 import com.baf.core.enums.Role;
 import com.baf.data.entities.Client;
 import com.baf.data.entities.User;
@@ -13,21 +13,19 @@ import com.baf.services.UserServ;
 public class UserView  extends ViewImpl<User>{
     private Scanner scanner;
     private UserServ userServ;
-    private ClientView clientView;
     private ClientService clientService;
 
-    public UserView(Scanner scanner, UserServ userServ, ClientView clientView, ClientService clientService) {
+    public UserView(Scanner scanner, UserServ userServ, ClientService clientService) {
         this.scanner = scanner;
         this.userServ = userServ;
-        this.clientView = clientView;
         this.clientService = clientService;
     }
 
-    public User createUserForClient() {
+    public User createUserForClient(String surnameClient) {
         System.out.println("Creer un compte user a un client sans compte");
 
         // Afficher les clients sans compte
-        String surnameClient = clientView.showClientWhitoutAccount();
+        // String surnameClient = clientView.showClientWhitoutAccount();
         Client client = clientService.selectBySurname(surnameClient);
         if (client == null) {
             System.out.println("Ce client n'est pas valide");
@@ -241,6 +239,12 @@ public class UserView  extends ViewImpl<User>{
         System.out.println("1 - Actif");
         System.out.println("2 - Role");
         return scanner.nextInt();
+    }
+
+    @Override
+    public User saisie() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'saisie'");
     }
 
 }
