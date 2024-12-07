@@ -1,42 +1,55 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import java.util.Scanner;
 
+import com.baf.core.PasswordHashing;
+import com.baf.core.enums.Role;
 import com.baf.data.entities.User;
-import com.baf.services.impl.UserServImpl;
+import com.baf.services.UserServ;
 
-public class UserView {
+public class UserView  extends ViewImpl<User>{
     private Scanner scanner;
-    private UserServImpl userServ;
+    private UserServ userServ;
 
-    public UserView(Scanner scanner, UserServImpl userServ) {
+    public UserView(Scanner scanner, UserServ userServ) {
         this.scanner = scanner;
         this.userServ = userServ;
     }
 
-    public void createUser() {
-        System.out.println("Creer un user");
 
-        System.out.println("Entrer l'email");
-        String email = scanner.nextLine();
-
-        System.out.println("Entrer le login");
-        String login = scanner.nextLine();
-
-        System.out.println("Entrer le mot de passe");
-        String password = scanner.nextLine();
-
-        System.out.println("Donner le role");
-        String role = scanner.nextLine();
-
+    @Override
+    public User saisie() {
         User user = new User();
-        user.setEmail(email);
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setRole(role);
-
-        userServ.insert(user);
+        boolean userExist = true;
+        do {
+            System.out.println("Veuillez saisir le login ");
+            user.setLogin(scanner.nextLine());
+            userExist = userServ.selectByLogin(user.getLogin()) != null;
+            if (userExist) {
+                System.out.println("Ooups !! Ce login exist deja");
+                System.out.println("veuillez réessayer");
+            }
+        } while (userExist);
+        user.setRole(getRole());
+        do {
+            System.out.println("Veuillez saisir le password");
+            user.setPassword(PasswordHashing.hashPassword(scanner.nextLine()));
+        } while (user.getPassword().trim() == "");
+        return user;
     }
+
+
+    public Role getRole() {
+        int choice = 0;
+        do {
+            System.out.println("Veuillez choisir le rôle");
+            System.out.println("1-Boutiquier");
+            System.out.println("2-Admin");
+            choice = scanner.nextInt();
+        } while (choice != 1 || choice != 2);
+        return Role.values()[choice - 1];
+    }
+
 
     public void getUserById() {
         System.out.println("Entrer l'id du user");

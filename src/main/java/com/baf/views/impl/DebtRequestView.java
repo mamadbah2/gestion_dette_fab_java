@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import com.baf.data.entities.DebtRequest;
 import com.baf.services.DebtRequestServ;
@@ -15,5 +15,7 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
     public DebtRequest saisie() {
         return null;
     }
+
+    
     
 }

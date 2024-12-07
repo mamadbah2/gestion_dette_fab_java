@@ -16,4 +16,6 @@ public interface DebtServ extends Service<Debt> {
     List<Debt> getDebtsFromClient(Client client);
 
     Debt getDebtById(int id);
+    void updateDebt(Debt debt);
+    
 }

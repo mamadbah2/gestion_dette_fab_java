@@ -8,7 +8,7 @@ public class ArticleRepositoryImplList extends RepositoryImplList<Article> imple
     @Override
     public Article selectByLibelle(String libelle) {
         for (Article article : data) {
-            if (article.getLibelle() == libelle.trim()){
+            if (article.getLibelle().equals(libelle)){
                 return article;
             }
         }

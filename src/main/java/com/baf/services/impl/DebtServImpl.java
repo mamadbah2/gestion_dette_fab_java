@@ -42,4 +42,11 @@ public class DebtServImpl implements DebtServ {
         return debtRepo.getDebtById(id);
     }
 
+    @Override
+    public void updateDebt(Debt debt) {
+        debtRepo.updateDebt(debt);
+    }
+
+    
+
 }

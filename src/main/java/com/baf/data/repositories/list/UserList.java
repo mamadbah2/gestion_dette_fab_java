@@ -41,4 +41,14 @@ public class UserList implements UserRepository {
         return users;
     }
 
+    @Override
+    public User selectByLogin(String login) {
+        for (User u : users) {
+            if (u.getLogin() == login) {
+                return u;
+            }
+        }
+        return null;
+    }
+
 }

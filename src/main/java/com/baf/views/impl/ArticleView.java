@@ -1,4 +1,4 @@
-package com.baf.views;
+package com.baf.views.impl;
 
 import com.baf.data.entities.Article;
 import com.baf.services.ArticleService;
@@ -31,9 +31,15 @@ public class ArticleView extends ViewImpl<Article> {
 
         do {
             System.out.println("Veuillez saisir le prix");
-            article.setPrix(scanner.nextInt());
+            article.setPrix(scanner.nextDouble());
 
         } while (article.getPrix() < 0);
         return article;
+    }
+
+    @Override
+    public void show(Article data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'show'");
     }
 }

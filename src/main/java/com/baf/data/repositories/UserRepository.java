@@ -6,4 +6,5 @@ import com.baf.data.entities.User;
 public interface UserRepository extends Repository<User> {
     public void toggleUser(User user);
     public User getUserById(int userId);
+    User selectByLogin(String login);
 }
