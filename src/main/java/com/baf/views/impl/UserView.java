@@ -3,13 +3,14 @@ package com.baf.views.impl;
 import java.util.List;
 import java.util.Scanner;
 
+import com.baf.core.PasswordHashing;
 import com.baf.core.enums.Role;
 import com.baf.data.entities.Client;
 import com.baf.data.entities.User;
 import com.baf.services.ClientService;
 import com.baf.services.UserServ;
 
-public class UserView {
+public class UserView  extends ViewImpl<User>{
     private Scanner scanner;
     private UserServ userServ;
     private ClientView clientView;

@@ -92,5 +92,7 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
 
         return debtRequest;
     }
+
+    
     
 }

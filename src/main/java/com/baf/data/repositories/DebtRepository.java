@@ -12,4 +12,5 @@ public interface DebtRepository extends Repository<Debt> {
     public void archivePaidDebt(List<Debt> debts);
     public List<Debt> getDebtsFromClient( Client client);
     public Debt getDebtById(int id);
+    public void updateDebt(Debt debt);
 }

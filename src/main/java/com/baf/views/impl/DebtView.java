@@ -3,26 +3,33 @@ package com.baf.views.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
 import com.baf.data.entities.Debt;
+import com.baf.data.entities.Payment;
 import com.baf.services.ArticleService;
+import com.baf.services.ClientService;
 import com.baf.services.DebtServ;
+import com.baf.services.PaymentServ;
 
-public class DebtView {
+public class DebtView extends ViewImpl<Debt> {
     private Scanner scanner;
     private DebtServ debtServ;
     private ArticleService articleService;
     private ArticleView articleView;
+    private PaymentServ paymentServ;
+    private ClientService clientService;
     private ClientView clientView;
-
-    public DebtView(Scanner scanner, DebtServ detteServ, ClientView clientView, ArticleService articleService, ArticleView articleView) {
+    public DebtView(Scanner scanner, DebtServ debtServ, ArticleService articleService, ArticleView articleView, PaymentServ paymentServ, ClientService clientService, ClientView clientView) {
         this.scanner = scanner;
-        this.debtServ = detteServ;
-        this.clientView = clientView;
+        this.debtServ = debtServ;
         this.articleService = articleService;
         this.articleView = articleView;
+        this.paymentServ = paymentServ;
+        this.clientService = clientService;
+        this.clientView = clientView;
     }
 
     // public void displayAllPaidDebts(Client client) {

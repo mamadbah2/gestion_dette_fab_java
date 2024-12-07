@@ -70,6 +70,19 @@ public class DebtList implements DebtRepository {
         return null;
     }
 
+    @Override
+    public void updateDebt(Debt debt) {
+        for (Debt d : debts) {
+            if (d.getIdDebt() == debt.getIdDebt()) {
+                d = debt;
+            }
+        }
+    }
+
+   
+
+   
+
     
     
 }

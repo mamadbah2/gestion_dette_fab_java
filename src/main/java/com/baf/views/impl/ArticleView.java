@@ -32,7 +32,7 @@ public class ArticleView extends ViewImpl<Article> {
 
         do {
             System.out.println("Veuillez saisir le prix");
-            article.setPrix(scanner.nextInt());
+            article.setPrix(scanner.nextDouble());
 
         } while (article.getPrix() < 0);
         return article;
@@ -60,5 +60,11 @@ public class ArticleView extends ViewImpl<Article> {
             System.out.println("l'id: " + id);
             System.out.println("L'article n'existe pas");
         }
+    }
+
+    @Override
+    public void show(Article data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'show'");
     }
 }

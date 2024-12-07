@@ -1,21 +1,25 @@
 package com.baf.views.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baf.data.entities.Client;
+import com.baf.data.entities.User;
 import com.baf.services.ClientService;
 
-public class ClientView extends ViewImpl<Client>{
+public class ClientView extends ViewImpl<Client> {
 
-      private ClientService clientServices;
+    private ClientService clientServices;
+    private UserView userView;
 
-    public ClientView (ClientService clientService ) {
+    public ClientView(ClientService clientService, UserView userView) {
         this.clientServices = clientService;
+        this.userView = userView;
     }
 
     @Override
     public Client saisie() {
-        Client client = new  Client();
+        Client client = new Client();
         do {
             System.out.println("Veuillez saisir le surnom du client ");
             client.setSurname(scanner.nextLine());
@@ -35,6 +39,15 @@ public class ClientView extends ViewImpl<Client>{
             System.out.println("Veuillez saisir l'adresse du client ");
             client.setAdresse(scanner.nextLine());
         } while (client.getAdresse() == "");
+
+        System.out.println("Voulez-vous ajouter un compte a ce client ? O/N");
+        String ok = scanner.nextLine().trim();
+        if (ok.toUpperCase().equals("O")) {
+            User user = userView.saisie();
+            if (user != null) {
+                client.setUser(user);
+            }
+        }
         return client;
     }
 
