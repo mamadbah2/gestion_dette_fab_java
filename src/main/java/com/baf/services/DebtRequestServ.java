@@ -9,4 +9,6 @@ import com.baf.data.entities.DebtRequest;
 public interface DebtRequestServ extends Service<DebtRequest> {
     List<DebtRequest> selectPendingRequestsForCl(Client Client);
     List<DebtRequest> selectCanceledRequestsForCl(Client Client);
+    void toggleStatus(int idDebtRequest, String status); 
+    DebtRequest getDebtRequestById(int idDebtRequest);  
 }

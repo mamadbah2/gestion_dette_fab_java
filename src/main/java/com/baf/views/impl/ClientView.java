@@ -58,11 +58,11 @@ public class ClientView extends ViewImpl<Client> {
             return null;
         }
         for (int i = 0; i < allClients.size(); i++) {
-            if (allClients.get(i).getUserAccount() != null) {
+            if (allClients.get(i).getUserAccount() == null) {
                 System.out.println(i + " - " + allClients.get(i).toString());
             }
         }
-        System.out.print("Votre choix : ");
+        System.out.print("Entrer le surnom du client choisi : ");
         return scanner.nextLine();
     }
 

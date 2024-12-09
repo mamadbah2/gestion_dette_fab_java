@@ -10,6 +10,10 @@ public abstract  class ViewImpl<T> implements View<T> {
 
     @Override
     public void liste(List<T> datas) {
+        if (datas == null || datas.isEmpty()) {
+            System.out.println("Aucune donnée trouvée.");
+            return;
+        }
         for (T t : datas) {
             System.out.println(t.toString());
         }

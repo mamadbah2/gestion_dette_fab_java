@@ -42,4 +42,14 @@ public class DebtRequestServImpl implements DebtRequestServ {
         }
         return canceledRequests;
     }
+
+    @Override
+    public void toggleStatus(int idDebtRequest, String status) {
+        debtRequestRepo.updateStatus(idDebtRequest, status);
+    }
+
+    @Override
+    public DebtRequest getDebtRequestById(int idDebtRequest) {
+        return debtRequestRepo.getDebtRequestById(idDebtRequest);
+    }
 }

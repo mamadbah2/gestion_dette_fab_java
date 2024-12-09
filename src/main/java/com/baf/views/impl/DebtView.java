@@ -117,6 +117,10 @@ public class DebtView extends ViewImpl<Debt> {
         // Affichage des articles disponibles
         System.out.println("Les articles de la dette:");
         List<Article> articles = articleService.selectAll();
+        if (articles.isEmpty()) {
+            System.out.println("Aucun article disponible.");
+            return;
+        }
         articleView.liste(articles);
     
         List<Article> selectedArticles = new ArrayList<>();

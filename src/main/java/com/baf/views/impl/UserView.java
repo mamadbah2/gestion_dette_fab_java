@@ -3,6 +3,7 @@ package com.baf.views.impl;
 import java.util.List;
 import java.util.Scanner;
 
+import com.baf.core.PasswordHashing;
 // import com.baf.core.PasswordHashing;
 import com.baf.core.enums.Role;
 import com.baf.data.entities.Client;
@@ -10,7 +11,7 @@ import com.baf.data.entities.User;
 import com.baf.services.ClientService;
 import com.baf.services.UserServ;
 
-public class UserView  extends ViewImpl<User>{
+public class UserView extends ViewImpl<User> {
     private Scanner scanner;
     private UserServ userServ;
     private ClientService clientService;
@@ -51,32 +52,10 @@ public class UserView  extends ViewImpl<User>{
         System.out.println("Entrer le mot de passe");
         String password = scanner.nextLine();
 
-        System.out.println("Donner le role. Les roles disponibles: ADMIN, CLIENT, BOUTIQUIER");
-        String roleInput = scanner.nextLine().toUpperCase();
-        Role role;
-        while (true) {
-            switch (roleInput) {
-                case "ADMIN":
-                    role = Role.ADMIN;
-                    break;
-                case "BOUTIQUIER":
-                    role = Role.BOUTIQUIER;
-                    break;
-                case "CLIENT":
-                    role = Role.CLIENT;
-                    break;
-                default:
-                    System.out.println("Role inconnu. Veuillez entrer un role valide.");
-                    roleInput = scanner.nextLine().toUpperCase();
-                    continue;
-            }
-            break;
-        }
-
         User user = new User();
         user.setLogin(login);
         user.setPassword(password);
-        user.setRole(role);
+        user.setRole(Role.CLIENT);
         user.setEmail(email);
 
         System.out.println("Utilisateur créé avec succès !");
@@ -123,7 +102,6 @@ public class UserView  extends ViewImpl<User>{
                     continue;
             }
             break;
-
 
         }
 
@@ -243,8 +221,35 @@ public class UserView  extends ViewImpl<User>{
 
     @Override
     public User saisie() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saisie'");
+        User user = new User();
+        boolean userExist = true;
+        do {
+            System.out.println("Veuillez saisir votre email ");
+            user.setEmail(scanner.nextLine());
+            userExist = userServ.selectByMail(user.getEmail()) != null;
+            if (userExist) {
+                System.out.println("Ooups !! Ce mail exist deja");
+                System.out.println("veuillez réessayer");
+            }
+        } while (userExist);
+
+        userExist = true;
+        do {
+            System.out.println("Veuillez saisir le login ");
+            user.setLogin(scanner.nextLine());
+            userExist = userServ.selectByLogin(user.getLogin()) != null;
+            if (userExist) {
+                System.out.println("Ooups !! Ce login exist deja");
+                System.out.println("veuillez réessayer");
+            }
+        } while (userExist);
+        user.setRole(Role.CLIENT);
+        do {
+            System.out.println("Veuillez saisir le password");
+            user.setPassword(PasswordHashing.hashPassword(scanner.nextLine()));
+        } while (user.getPassword().trim() == "");
+        user.setIsActive(true);
+        return user;
     }
 
 }
