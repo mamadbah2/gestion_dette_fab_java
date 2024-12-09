@@ -7,9 +7,11 @@ import java.util.Scanner;
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
 import com.baf.data.entities.Debt;
+import com.baf.data.entities.DetailDebt;
 import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
 import com.baf.services.DebtServ;
+import com.baf.services.DetailDebtService;
 import com.baf.services.PaymentServ;
 
 public class DebtView extends ViewImpl<Debt> {
@@ -20,7 +22,8 @@ public class DebtView extends ViewImpl<Debt> {
     private PaymentServ paymentServ;
     private ClientService clientService;
     private ClientView clientView;
-    public DebtView(Scanner scanner, DebtServ debtServ, ArticleService articleService, ArticleView articleView, PaymentServ paymentServ, ClientService clientService, ClientView clientView) {
+    private DetailDebtService detailDebtService;
+    public DebtView(Scanner scanner, DebtServ debtServ, ArticleService articleService, ArticleView articleView, PaymentServ paymentServ, ClientService clientService, ClientView clientView, DetailDebtService detailDebtService) {
         this.scanner = scanner;
         this.debtServ = debtServ;
         this.articleService = articleService;
@@ -28,6 +31,7 @@ public class DebtView extends ViewImpl<Debt> {
         this.paymentServ = paymentServ;
         this.clientService = clientService;
         this.clientView = clientView;
+        this.detailDebtService = detailDebtService;
     }
 
     // public void displayAllPaidDebts(Client client) {
@@ -102,7 +106,7 @@ public class DebtView extends ViewImpl<Debt> {
             System.out.println("Client non trouvé");
             return;
         }
-
+        Debt debt = new Debt();
         System.out.println("Entrez les informations de la dette");
     
         // Entrée pour le montant
@@ -123,7 +127,6 @@ public class DebtView extends ViewImpl<Debt> {
         }
         articleView.liste(articles);
     
-        List<Article> selectedArticles = new ArrayList<>();
         boolean continuer = true;
     
         while (continuer) {
@@ -137,8 +140,23 @@ public class DebtView extends ViewImpl<Debt> {
                     .orElse(null);
     
             if (article != null) {
-                selectedArticles.add(article);
+                DetailDebt detailDebt = new DetailDebt();
+                System.out.println("Entrez la quantité de l'article:");
+                int qte = scanner.nextInt();
+                scanner.nextLine(); // Consomme le retour à la ligne
+                if (qte > 0 && qte <= article.getQteStock()) {
+                    detailDebt.setQte(qte);
+                    detailDebt.setPrix(article.getPrix() * qte);
+                    detailDebt.setArticle(article);
+                    debt.addDetailDebt(detailDebt);
+                    detailDebt.setDebt(debt);
+                    detailDebtService.insert(detailDebt);
                 System.out.println("Article ajouté : " + article.getLibelle());
+                } else {
+                    System.out.println("Quantité invalide.");
+                    continue;
+                }
+                
             } else {
                 System.out.println("Aucun article avec le libellé \"" + reponse + "\" trouvé.");
             }
@@ -153,12 +171,12 @@ public class DebtView extends ViewImpl<Debt> {
     
         // Affichage des articles sélectionnés
         System.out.println("Articles sélectionnés :");
-        selectedArticles.forEach(article -> System.out.println("- " + article.getLibelle()));
+        debt.getDetailDebts().forEach(a -> System.out.println(a.getArticle().toString()));
     
         // Exemple de création d'une dette
-        Debt debt = new Debt();
+      
         debt.setMount(montant);
-        debt.setArticles(selectedArticles);
+        debt.setRemainingMount(montant);
         debt.setClient(client);
     
         // Sauvegarde de la dette
@@ -178,7 +196,7 @@ public class DebtView extends ViewImpl<Debt> {
                 System.out.println("Voulez-vous afficher les articles? (oui/non)");
                 String reponse = scanner.nextLine();
                 if (reponse.equalsIgnoreCase("oui")) {
-                    dette.getArticles().forEach(a -> System.out.println(a.toString()));
+                    dette.getDetailDebts().forEach(a -> System.out.println(a.getArticle().toString()));
                 }
                 System.out.println("Voulez-vous afficher les paiements? (oui/non)");
                 reponse = scanner.nextLine();

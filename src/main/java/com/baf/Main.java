@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
+import com.baf.data.entities.DetailDebt;
 import com.baf.data.entities.User;
 import com.baf.data.repositories.ArticleRepository;
 import com.baf.data.repositories.ClientRepository;
 import com.baf.data.repositories.DebtRepository;
 import com.baf.data.repositories.DebtRequestRepository;
+import com.baf.data.repositories.DetailDebtRepository;
 import com.baf.data.repositories.DetailDebtRequestRepository;
 import com.baf.data.repositories.PaymentRepository;
 import com.baf.data.repositories.UserRepository;
@@ -16,6 +18,7 @@ import com.baf.data.repositories.list.ArticleRepositoryImplList;
 import com.baf.data.repositories.list.ClientRepositoryImplList;
 import com.baf.data.repositories.list.DebtList;
 import com.baf.data.repositories.list.DebtRequestList;
+import com.baf.data.repositories.list.DetailDebtRepositoryImplList;
 import com.baf.data.repositories.list.DetailDebtRequestRepositoryImplList;
 import com.baf.data.repositories.list.PaymentList;
 import com.baf.data.repositories.list.UserList;
@@ -24,12 +27,14 @@ import com.baf.services.ClientService;
 import com.baf.services.DebtRequestServ;
 import com.baf.services.DebtServ;
 import com.baf.services.DetailDebtRequestService;
+import com.baf.services.DetailDebtService;
 import com.baf.services.PaymentServ;
 import com.baf.services.UserServ;
 import com.baf.services.impl.ArticleServiceImpl;
 import com.baf.services.impl.ClientServiceImpl;
 import com.baf.services.impl.DebtRequestServImpl;
 import com.baf.services.impl.DebtServImpl;
+import com.baf.services.impl.DetailDebtRequestServiceImpl;
 import com.baf.services.impl.DetailDebtServiceImpl;
 import com.baf.services.impl.PaymentsServImpl;
 import com.baf.services.impl.UserServImpl;
@@ -53,7 +58,8 @@ public class Main {
         DebtRepository debtRepository = new DebtList();
         PaymentRepository paymentRepository = new PaymentList();
         DebtRequestRepository debtRequestRepository = new DebtRequestList();
-        DetailDebtRequestRepository detailDebtRepository = new DetailDebtRequestRepositoryImplList();
+        DetailDebtRequestRepository detailDebtRequestRepository = new DetailDebtRequestRepositoryImplList();
+        DetailDebtRepository detailDebtRepository = new DetailDebtRepositoryImplList();
         // ----------------------------Services--------------------------------
         ClientService clientService = new ClientServiceImpl(clientRepository);
         UserServ userServ = new UserServImpl(userRepository);
@@ -61,15 +67,17 @@ public class Main {
         DebtServ debtServ = new DebtServImpl(debtRepository);
         PaymentServ paymentServ = new PaymentsServImpl(paymentRepository);
         DebtRequestServ detteRequestServ = new DebtRequestServImpl(debtRequestRepository);
-        DetailDebtRequestService detailDebtService = new DetailDebtServiceImpl(detailDebtRepository);
+        DetailDebtRequestService detailDebtRequestService = new DetailDebtRequestServiceImpl(detailDebtRequestRepository);
+        DetailDebtService detailDebtService = new DetailDebtServiceImpl(detailDebtRepository);
         // ----------------------------Vues-------------------------------------
         UserView userView = new UserView(scanner, userServ, clientService);
         ClientView clientView = new ClientView(clientService, userView);
         ArticleView articleView = new ArticleView(articleService);
         DebtView debtView = new DebtView(scanner, debtServ, articleService, articleView, paymentServ, clientService,
-                clientView);
+                clientView, detailDebtService);
         PaymentView paimentView = new PaymentView(scanner, debtServ, debtView);
-        DebtRequestView detteRequestView = new DebtRequestView(articleView, articleService, clientView, detteRequestServ, detailDebtService);
+        DebtRequestView detteRequestView = new DebtRequestView(articleView, articleService, clientView, detteRequestServ,
+                detailDebtRequestService);
 
         int choice;
         do {

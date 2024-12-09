@@ -14,13 +14,14 @@ public class Debt {
     private Double remainingMount;
     private boolean isAchieved ;
     private Client client;
-    private List<Article> articles;
     private List<Payment> payments;
+    private List<DetailDebt> detailDebts;
 
-   public void addArticle(Article article){
-       articles.add(article);
-   }
+ 
    public void addPayment(Payment payment){
        payments.add(payment);
    }
+    public void addDetailDebt(DetailDebt detailDebt){
+         detailDebts.add(detailDebt);
+    }
 }

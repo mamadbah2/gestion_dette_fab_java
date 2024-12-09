@@ -1,6 +1,5 @@
 package com.baf.views.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +17,13 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
     private ArticleView articleView;
     private ArticleService articleService;
     private DebtRequestServ detteRequestServ;
-    private DetailDebtRequestService detailDebtService;
-    public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView, DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtService) {
+    private DetailDebtRequestService detailDebtRequestService;
+    public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView, DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtRequestService) {
         this.articleView = articleView;
         this.articleService = articleService;
         this.clientView = clientView;
         this.detteRequestServ = detteRequestServ;
-        this.detailDebtService = detailDebtService;
+        this.detailDebtRequestService = detailDebtRequestService;
     }
 
     public int subMenuFilter() {
@@ -82,7 +81,7 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
                     detailDebt.setArticle(article);
                     debtRequest.addDetailDebt(detailDebt);
                     detailDebt.setDebtRequest(debtRequest); 
-                    detailDebtService.insert(detailDebt);
+                    detailDebtRequestService.insert(detailDebt);
                     System.out.println("Article ajouté : " + article.getLibelle());
                 } else {
                     System.out.println("Quantité invalide.");
