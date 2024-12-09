@@ -1,9 +1,8 @@
 package com.baf.data.repositories;
 
-import com.baf.core.Repository;
-import com.baf.data.entities.Debt;
+
 import com.baf.data.entities.DetailDebt;
 
-public interface DetailDebtRepository extends Repository<DetailDebt> {
+public interface DetailDebtRepository {
     DetailDebt getDetailDebtById(int idDetailDebt);
-} 
+}

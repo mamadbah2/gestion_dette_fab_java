@@ -9,21 +9,21 @@ import com.baf.data.repositories.ArticleRepository;
 import com.baf.data.repositories.ClientRepository;
 import com.baf.data.repositories.DebtRepository;
 import com.baf.data.repositories.DebtRequestRepository;
-import com.baf.data.repositories.DetailDebtRepository;
+import com.baf.data.repositories.DetailDebtRequestRepository;
 import com.baf.data.repositories.PaymentRepository;
 import com.baf.data.repositories.UserRepository;
 import com.baf.data.repositories.list.ArticleRepositoryImplList;
 import com.baf.data.repositories.list.ClientRepositoryImplList;
 import com.baf.data.repositories.list.DebtList;
 import com.baf.data.repositories.list.DebtRequestList;
-import com.baf.data.repositories.list.DetailDebtRepositoryImplList;
+import com.baf.data.repositories.list.DetailDebtRequestRepositoryImplList;
 import com.baf.data.repositories.list.PaymentList;
 import com.baf.data.repositories.list.UserList;
 import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
 import com.baf.services.DebtRequestServ;
 import com.baf.services.DebtServ;
-import com.baf.services.DetailDebtService;
+import com.baf.services.DetailDebtRequestService;
 import com.baf.services.PaymentServ;
 import com.baf.services.UserServ;
 import com.baf.services.impl.ArticleServiceImpl;
@@ -53,7 +53,7 @@ public class Main {
         DebtRepository debtRepository = new DebtList();
         PaymentRepository paymentRepository = new PaymentList();
         DebtRequestRepository debtRequestRepository = new DebtRequestList();
-        DetailDebtRepository detailDebtRepository = new DetailDebtRepositoryImplList();
+        DetailDebtRequestRepository detailDebtRepository = new DetailDebtRequestRepositoryImplList();
         // ----------------------------Services--------------------------------
         ClientService clientService = new ClientServiceImpl(clientRepository);
         UserServ userServ = new UserServImpl(userRepository);
@@ -61,7 +61,7 @@ public class Main {
         DebtServ debtServ = new DebtServImpl(debtRepository);
         PaymentServ paymentServ = new PaymentsServImpl(paymentRepository);
         DebtRequestServ detteRequestServ = new DebtRequestServImpl(debtRequestRepository);
-        DetailDebtService detailDebtService = new DetailDebtServiceImpl(detailDebtRepository);
+        DetailDebtRequestService detailDebtService = new DetailDebtServiceImpl(detailDebtRepository);
         // ----------------------------Vues-------------------------------------
         UserView userView = new UserView(scanner, userServ, clientService);
         ClientView clientView = new ClientView(clientService, userView);

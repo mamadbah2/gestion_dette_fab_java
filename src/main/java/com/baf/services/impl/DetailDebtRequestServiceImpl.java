@@ -6,10 +6,10 @@ import com.baf.data.entities.DetailDebtRequest;
 import com.baf.data.repositories.DetailDebtRequestRepository;
 import com.baf.services.DetailDebtRequestService;
 
-public class DetailDebtServiceImpl implements DetailDebtRequestService {
+public class DetailDebtRequestServiceImpl implements DetailDebtRequestService {
     private DetailDebtRequestRepository detailDebtRepository;
 
-    public DetailDebtServiceImpl(DetailDebtRequestRepository detailDebtRepository) {
+    public DetailDebtRequestServiceImpl(DetailDebtRequestRepository detailDebtRepository) {
         this.detailDebtRepository = detailDebtRepository;
     }
     @Override

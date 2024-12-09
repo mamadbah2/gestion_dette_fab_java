@@ -9,7 +9,7 @@ public class DebtRequest {
     int idDebtRequest;
     Date date;
     Client client;
-    private List<DetailDebt> detailDebts = new ArrayList<DetailDebt>();
+    private List<DetailDebtRequest> detailDebts = new ArrayList<DetailDebtRequest>();
     private double totalAmount;
     public double getTotalAmount() {
         return totalAmount;
@@ -20,7 +20,7 @@ public class DebtRequest {
     String status;
     int nbre = 0;
     
-    public List<DetailDebt> getDetailDebts() {
+    public List<DetailDebtRequest> getDetailDebts() {
         return detailDebts;
     }
     public DebtRequest() {
@@ -30,7 +30,7 @@ public class DebtRequest {
         return idDebtRequest;
     }
 
-    public void addDetailDebt(DetailDebt detailDebt){
+    public void addDetailDebt(DetailDebtRequest detailDebt){
         detailDebts.add(detailDebt);
     }
     public void setIdDebtRequest(int idDebtRequest) {

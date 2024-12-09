@@ -1,17 +1,15 @@
 package com.baf.data.repositories.list;
 
-import com.baf.data.entities.DetailDebt;
 import com.baf.data.entities.DetailDebtRequest;
-import com.baf.data.repositories.DetailDebtRepository;
 import com.baf.data.repositories.DetailDebtRequestRepository;
 
-public class DetailDebtRepositoryImplList extends RepositoryImplList<DetailDebt> implements DetailDebtRepository {
+public class DetailDebtRequestRepositoryImplList extends RepositoryImplList<DetailDebtRequest> implements DetailDebtRequestRepository {
 
    
 
     @Override
-    public DetailDebt getDetailDebtById(int idDetailDebt) {
-        for (DetailDebt detailDebt : data) {
+    public DetailDebtRequest getDetailDebtById(int idDetailDebt) {
+        for (DetailDebtRequest detailDebt : data) {
             if (detailDebt.getId() == idDetailDebt){
                 return detailDebt;
             }

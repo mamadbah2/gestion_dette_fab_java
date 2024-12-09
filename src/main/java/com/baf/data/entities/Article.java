@@ -10,7 +10,7 @@ public class Article {
     private String libelle;
     private int qteStock;
     private int prix;
-    private List<DetailDebt> detailDebts;
+    private List<DetailDebtRequest> detailDebts;
     private static int nbre = 0;
     public Article() {
         id = nbre++;

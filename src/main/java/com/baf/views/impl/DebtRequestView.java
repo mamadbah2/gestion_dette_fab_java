@@ -7,10 +7,10 @@ import java.util.List;
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
 import com.baf.data.entities.DebtRequest;
-import com.baf.data.entities.DetailDebt;
+import com.baf.data.entities.DetailDebtRequest;
 import com.baf.services.ArticleService;
 import com.baf.services.DebtRequestServ;
-import com.baf.services.DetailDebtService;
+import com.baf.services.DetailDebtRequestService;
 
 public class DebtRequestView extends ViewImpl<DebtRequest> {
 
@@ -18,8 +18,8 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
     private ArticleView articleView;
     private ArticleService articleService;
     private DebtRequestServ detteRequestServ;
-    private DetailDebtService detailDebtService;
-    public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView, DebtRequestServ detteRequestServ, DetailDebtService detailDebtService) {
+    private DetailDebtRequestService detailDebtService;
+    public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView, DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtService) {
         this.articleView = articleView;
         this.articleService = articleService;
         this.clientView = clientView;
@@ -72,7 +72,7 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
                     .orElse(null);
 
             if (article != null) {
-                DetailDebt detailDebt = new DetailDebt();
+                DetailDebtRequest detailDebt = new DetailDebtRequest();
                 System.out.println("Entrez la quantité de l'article:");
                 int qte = scanner.nextInt();
                 if (qte > 0 && qte <= article.getQteStock()) {
