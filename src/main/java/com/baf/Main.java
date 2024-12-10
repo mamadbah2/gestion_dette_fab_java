@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
-import com.baf.data.entities.DetailDebt;
 import com.baf.data.entities.User;
 import com.baf.data.repositories.ArticleRepository;
 import com.baf.data.repositories.ClientRepository;
@@ -77,7 +76,7 @@ public class Main {
                 clientView, detailDebtService);
         PaymentView paimentView = new PaymentView(scanner, debtServ, debtView);
         DebtRequestView detteRequestView = new DebtRequestView(articleView, articleService, clientView, detteRequestServ,
-                detailDebtRequestService);
+                detailDebtRequestService, debtServ);
 
         int choice;
         do {
@@ -178,6 +177,7 @@ public class Main {
                                 debtServ.insert(debtView.saisie());
                                 break;
                             case 5:
+                                // Enregistrer un paiement pour une dette
                                 paymentServ.insert(paimentView.saisie());
                                 break;
                             case 6:
@@ -188,36 +188,7 @@ public class Main {
                                 break;
                             case 8:
                                 // Gérer les demandes de dette (valider/refuser)
-                                detteRequestView.liste(detteRequestServ.selectAll());
-                                System.out.println("Veuillez saisir L'id de la demande de dette");
-                                int id = scanner.nextInt();
-                                System.out.println("Voulez vous valider (oui/non)");
-                                String reponse = scanner.nextLine();
-                                if (reponse.equalsIgnoreCase("oui")) {
-                                    detteRequestServ.toggleStatus(id, "valider");
-                                } else {
-                                    detteRequestServ.toggleStatus(id, "refuser");
-                                }
-
-                                break;
-                            // case 2:
-                            // System.out.println("Veuillez saisir le numero de telephone du client");
-                            // clientView.liste(clientService.selectAll());
-                            // String tel = scanner.nextLine();
-                            // Client client = clientService.selectByTel(tel);
-                            // if (client != null && client.getUser() == null) {
-                            // User user = userView.saisie();
-                            // if (user != null) {
-                            // clientService.createAccount(client.getId(), user);
-                            // }
-                            // }
-                            // if (client != null) {
-                            // System.out.println("Desole ce client n'existe");
-                            // } else {
-                            // System.out.println("Ce client a deja un compte");
-                            // clientView.show(client);
-                            // }
-                            // break;
+                                detteRequestView.handleDebtRequest();
                             case 0:
                                 System.out.println("Retour au menu login");
                                 break;

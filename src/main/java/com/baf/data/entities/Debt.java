@@ -11,7 +11,7 @@ public class Debt {
     private Double mount; 
     private Date date = new Date();
     private Double paidMount; 
-    private Double remainingMount;
+    private double remainingMount;
     private boolean isAchieved ;
     private Client client;
     private List<Payment> payments;

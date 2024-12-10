@@ -7,7 +7,7 @@ import com.baf.data.entities.Client;
 import com.baf.data.entities.Debt;
 import com.baf.data.repositories.DebtRepository;
 
-public class DebtList implements DebtRepository {
+public class DebtList extends RepositoryImplList<Debt> implements DebtRepository {
 
     private List<Debt> debts = new ArrayList<>();
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 import com.baf.data.entities.User;
 import com.baf.data.repositories.UserRepository;
 
-public class UserList implements UserRepository {
+public class UserList extends RepositoryImplList<User> implements UserRepository {
 
     private List<User> users = new ArrayList<>();
 

@@ -9,8 +9,9 @@ public class DebtRequest {
     int idDebtRequest;
     Date date;
     Client client;
-    private List<DetailDebtRequest> detailDebts = new ArrayList<DetailDebtRequest>();
     private double totalAmount;
+    private List<DetailDebtRequest> detailDebts = new ArrayList<DetailDebtRequest>();
+
     public double getTotalAmount() {
         return totalAmount;
     }

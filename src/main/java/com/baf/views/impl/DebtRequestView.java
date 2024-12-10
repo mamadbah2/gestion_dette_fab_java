@@ -5,20 +5,28 @@ import java.util.List;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
+import com.baf.data.entities.Debt;
 import com.baf.data.entities.DebtRequest;
+import com.baf.data.entities.DetailDebt;
 import com.baf.data.entities.DetailDebtRequest;
 import com.baf.services.ArticleService;
 import com.baf.services.DebtRequestServ;
+import com.baf.services.DebtServ;
 import com.baf.services.DetailDebtRequestService;
 
 public class DebtRequestView extends ViewImpl<DebtRequest> {
-
+    private DebtServ debtServ;
     private ClientView clientView;
     private ArticleView articleView;
     private ArticleService articleService;
     private DebtRequestServ detteRequestServ;
     private DetailDebtRequestService detailDebtRequestService;
-    public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView, DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtRequestService) {
+
+
+    public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView,
+            DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtRequestService, 
+            DebtServ debtServ) {
+        this.debtServ = debtServ;
         this.articleView = articleView;
         this.articleService = articleService;
         this.clientView = clientView;
@@ -80,7 +88,7 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
                     debtRequest.setTotalAmount(detailDebt.getPrix() + debtRequest.getTotalAmount());
                     detailDebt.setArticle(article);
                     debtRequest.addDetailDebt(detailDebt);
-                    detailDebt.setDebtRequest(debtRequest); 
+                    detailDebt.setDebtRequest(debtRequest);
                     detailDebtRequestService.insert(detailDebt);
                     System.out.println("Article ajouté : " + article.getLibelle());
                 } else {
@@ -102,7 +110,8 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
 
         // Affichage des articles sélectionnés
         // System.out.println("Articles sélectionnés :");
-        // debtRequest.getDetailDebts().forEach(detailDebt -> System.out.println("- " + detailDebt.getArticle().getLibelle()));
+        // debtRequest.getDetailDebts().forEach(detailDebt -> System.out.println("- " +
+        // detailDebt.getArticle().getLibelle()));
         debtRequest.setClient(client);
 
         debtRequest.setStatus("en cours");
@@ -124,6 +133,19 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
         }
         if (reponse.equalsIgnoreCase("oui")) {
             detteRequestServ.toggleStatus(id, "valider");
+            Debt debt = new Debt();
+            debt.setClient(detteRequest.getClient());
+            debt.setDate(new Date());
+            debt.setRemainingMount(detteRequest.getTotalAmount());
+            for (DetailDebtRequest detailDebtRequest : detteRequest.getDetailDebts()) {
+                DetailDebt detailDebt = new DetailDebt();
+                detailDebt.setArticle(detailDebtRequest.getArticle());
+                detailDebt.setQte(detailDebtRequest.getQte());
+                detailDebt.setPrix(detailDebtRequest.getPrix());
+                detailDebt.setDebt(debt);
+                debt.addDetailDebt(detailDebt);
+            }
+            debtServ.insert(debt);
         } else {
             detteRequestServ.toggleStatus(id, "refuser");
         }
