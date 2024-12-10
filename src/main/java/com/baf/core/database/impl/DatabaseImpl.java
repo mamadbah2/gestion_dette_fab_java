@@ -21,17 +21,10 @@ public class DatabaseImpl implements Database {
     @Override
     public void getConnection() throws SQLException {
         try {
-            if (conn == null) {
-                Class.forName("org.postgresql.Driver");
-                conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, userName, userPassword);
-            }            
-            System.out.println("Connexion BD etablie");
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, userName, userPassword);
         } catch (ClassNotFoundException e) {
-            System.out.println("Erreur de chargement du Driver");
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            System.out.println("Erreur de Connexion a votre BD");
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -64,5 +57,13 @@ public class DatabaseImpl implements Database {
             ps = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
         }
     }
+
+    @Override
+    public void update(String req) throws SQLException {
+        Statement st = conn.createStatement();
+        st.executeUpdate(req);
+    }
+
+
 
 }

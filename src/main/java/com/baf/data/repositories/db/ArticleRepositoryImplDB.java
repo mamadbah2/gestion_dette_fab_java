@@ -3,6 +3,7 @@ package com.baf.data.repositories.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.baf.core.database.impl.DatabaseImpl;
@@ -15,8 +16,18 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
 
     @Override
     public Article selectById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectById'");
+        String req = String.format("Select * from article where id = %d", id);
+        try {
+            this.initPreparedStatement(req);
+            ResultSet rs = this.ps.executeQuery();
+            if (rs.next()) {
+                return this.convertToObject(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
     }
 
     @Override
@@ -44,7 +55,7 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
 
 
@@ -53,14 +64,33 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
 
     @Override
     public Article convertToObject(ResultSet rs) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'convertToObject'");
+        Article article = new Article();
+        try {
+            article.setId(rs.getInt("id"));
+            article.setLibelle(rs.getString("libelle"));
+            article.setPrix(rs.getInt("prix"));
+            article.setQteStock(rs.getInt("qteStock"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return article;
     }
 
     @Override
     public Article selectByLibelle(String libelle) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectByLibelle'");
+        String req = String.format("Select * from article where libelle = '%s'", libelle);
+        try {
+            this.initPreparedStatement(req);
+            ResultSet rs = this.ps.executeQuery();
+            if (rs.next()) {
+                return this.convertToObject(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
     }
     
 }

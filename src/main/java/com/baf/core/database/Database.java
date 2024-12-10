@@ -9,4 +9,5 @@ public interface Database {
     ResultSet executeSelect(String req) throws SQLException;
     void initPreparedStatement(String req) throws SQLException;
     int executeUpdate() throws SQLException;
+    void update(String req) throws SQLException;
 }
