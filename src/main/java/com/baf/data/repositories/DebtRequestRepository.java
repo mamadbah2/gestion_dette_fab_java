@@ -7,5 +7,5 @@ import com.baf.data.entities.DebtRequest;
 public interface DebtRequestRepository extends Repository<DebtRequest> {
     DebtRequest getDebtRequestByClient(Client client);
     void updateStatus(int idDebtRequest, String status);
-    DebtRequest getDebtRequestById(int idDebtRequest);
+    DebtRequest selectById(int idDebtRequest);
 }

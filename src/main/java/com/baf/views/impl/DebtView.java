@@ -1,7 +1,6 @@
 package com.baf.views.impl;
 
 import java.util.List;
-import java.util.Scanner;
 
 import com.baf.data.entities.Article;
 import com.baf.data.entities.Client;
@@ -11,23 +10,18 @@ import com.baf.services.ArticleService;
 import com.baf.services.ClientService;
 import com.baf.services.DebtServ;
 import com.baf.services.DetailDebtService;
-import com.baf.services.PaymentServ;
 
 public class DebtView extends ViewImpl<Debt> {
-    private Scanner scanner;
     private DebtServ debtServ;
     private ArticleService articleService;
     private ArticleView articleView;
-    private PaymentServ paymentServ;
     private ClientService clientService;
     private ClientView clientView;
     private DetailDebtService detailDebtService;
-    public DebtView(Scanner scanner, DebtServ debtServ, ArticleService articleService, ArticleView articleView, PaymentServ paymentServ, ClientService clientService, ClientView clientView, DetailDebtService detailDebtService) {
-        this.scanner = scanner;
+    public DebtView(DebtServ debtServ, ArticleService articleService, ArticleView articleView, ClientService clientService, ClientView clientView, DetailDebtService detailDebtService) {
         this.debtServ = debtServ;
         this.articleService = articleService;
         this.articleView = articleView;
-        this.paymentServ = paymentServ;
         this.clientService = clientService;
         this.clientView = clientView;
         this.detailDebtService = detailDebtService;

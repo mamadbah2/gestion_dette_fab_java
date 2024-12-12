@@ -12,7 +12,6 @@ import com.baf.data.repositories.ArticleRepository;
 
 public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepository {
 
-    
 
     @Override
     public Article selectById(int id) {

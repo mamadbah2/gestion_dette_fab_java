@@ -1,8 +1,6 @@
 package com.baf.views.impl;
 
 import java.util.List;
-import java.util.Scanner;
-
 import com.baf.core.PasswordHashing;
 // import com.baf.core.PasswordHashing;
 import com.baf.core.enums.Role;
@@ -12,12 +10,10 @@ import com.baf.services.ClientService;
 import com.baf.services.UserServ;
 
 public class UserView extends ViewImpl<User> {
-    private Scanner scanner;
     private UserServ userServ;
     private ClientService clientService;
 
-    public UserView(Scanner scanner, UserServ userServ, ClientService clientService) {
-        this.scanner = scanner;
+    public UserView( UserServ userServ, ClientService clientService) {
         this.userServ = userServ;
         this.clientService = clientService;
     }

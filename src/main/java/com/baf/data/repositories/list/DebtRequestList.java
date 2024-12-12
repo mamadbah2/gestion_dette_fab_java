@@ -27,7 +27,7 @@ public class DebtRequestList extends RepositoryImplList<DebtRequest>  implements
     }
 
     @Override
-    public DebtRequest getDebtRequestById(int idDebtRequest) {
+    public DebtRequest selectById(int idDebtRequest) {
         for (DebtRequest debtRequest : data) {
             if (debtRequest.getIdDebtRequest() == idDebtRequest) {
                 return debtRequest;

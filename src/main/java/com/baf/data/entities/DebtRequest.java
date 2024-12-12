@@ -8,10 +8,13 @@ import java.util.List;
 public class DebtRequest {
     int idDebtRequest;
     Date date;
-    Client client;
     private double totalAmount;
+    Client client;
     private List<DetailDebtRequest> detailDebts = new ArrayList<DetailDebtRequest>();
 
+    public void setDetailDebts(List<DetailDebtRequest> detailDebts) {
+        this.detailDebts = detailDebts;
+    }
     public double getTotalAmount() {
         return totalAmount;
     }

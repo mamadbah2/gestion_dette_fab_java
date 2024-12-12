@@ -1,21 +1,18 @@
 package com.baf.views.impl;
 
 import java.util.Date;
-import java.util.Scanner;
 
 import com.baf.data.entities.Debt;
 import com.baf.data.entities.Payment;
 import com.baf.services.DebtServ;
 
 public class PaymentView extends ViewImpl<Payment> {
-    private Scanner scanner;
     private DebtServ debtServ;
     private DebtView debtView;
      
 
-    public PaymentView(Scanner scanner, DebtServ debtServ, DebtView debtView) {
-        this.scanner = scanner;
-        this.debtServ = debtServ;
+    public PaymentView(DebtServ debtServ, DebtView debtView) {
+       this.debtServ = debtServ;
         this.debtView = debtView;
     }
 

@@ -50,6 +50,6 @@ public class DebtRequestServImpl implements DebtRequestServ {
 
     @Override
     public DebtRequest getDebtRequestById(int idDebtRequest) {
-        return debtRequestRepo.getDebtRequestById(idDebtRequest);
+        return debtRequestRepo.selectById(idDebtRequest);
     }
 }
