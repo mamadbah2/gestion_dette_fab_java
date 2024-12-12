@@ -14,8 +14,8 @@ import com.baf.data.repositories.PaymentRepository;
 public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepository {
 
     public void insert(Payment data) {
-        String req = String.format("Insert into payment (id, amount, date, idDebt) values (%d, %f, %s, %d)",
-                data.getId(), data.getAmount(), data.getDate(), data.getDebt().getIdDebt());
+        String req = String.format("Insert into payment (date, amount, debt_id) values (%s, %d, %d)",
+                data.getDate(), data.getAmount(), data.getDebt().getIdDebt());
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
@@ -26,13 +26,13 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
 
     public List<Payment> selectAll() {
         String req = "SELECT p.id, p.date, p.amount, " +
-                "d.idDebt AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
-                "d.paidMount AS debt_paidMount, d.remainingMount AS debt_remainingMount, d.isAchieved AS debt_isAchieved, "
+                "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved, "
                 +
-                "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt "
+                "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt "
                 +
                 "FROM Payment p " +
-                "JOIN Debt d ON p.debt_id = d.idDebt " +
+                "JOIN Debt d ON p.debt_id = d.id " +
                 "JOIN Client c ON d.client_id = c.id";
 
         List<Payment> list = new ArrayList<>();
@@ -52,13 +52,13 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
     public Payment getPaymentById(int idPayment) {
         String req = String.format(
                 "SELECT p.id, p.date, p.amount, " +
-                        "d.idDebt AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
-                        "d.paidMount AS debt_paidMount, d.remainingMount AS debt_remainingMount, d.isAchieved AS debt_isAchieved, "
+                        "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                        "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved, "
                         +
-                        "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt "
+                        "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt "
                         +
                         "FROM Payment p " +
-                        "JOIN Debt d ON p.debt_id = d.idDebt " +
+                        "JOIN Debt d ON p.debt_id = d.id " +
                         "JOIN Client c ON d.client_id = c.id" +
                         "where id = %d",
                 idPayment);
@@ -77,15 +77,15 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
 
     public Payment getPaymentByDebtId(int idDebt) {
         String req = String.format("SELECT p.id, p.date, p.amount, " +
-                "d.idDebt AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
                 "d.paidMount AS debt_paidMount, d.remainingMount AS debt_remainingMount, d.isAchieved AS debt_isAchieved, "
                 +
-                "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt "
+                "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt "
                 +
                 "FROM Payment p " +
-                "JOIN Debt d ON p.debt_id = d.idDebt " +
+                "JOIN Debt d ON p.debt_id = d.id " +
                 "JOIN Client c ON d.client_id = c.id" +
-                "where idDebt = %d", idDebt);
+                "where id = %d", idDebt);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -102,13 +102,13 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
     public List<Payment> selectAllByDebtId(int idDebt) {
         List<Payment> list = new ArrayList<>();
         String req = String.format("SELECT p.id, p.date, p.amount, " +
-             "d.idDebt AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
-             "d.paidMount AS debt_paidMount, d.remainingMount AS debt_remainingMount, d.isAchieved AS debt_isAchieved, " +
-             "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt " +
+             "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+             "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved, " +
+             "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt " +
              "FROM Payment p " +
-             "JOIN Debt d ON p.debt_id = d.idDebt " +
+             "JOIN Debt d ON p.debt_id = d.id " +
              "JOIN Client c ON d.client_id = c.id" + 
-             "where idDebt = %d", idDebt);
+             "where id = %d", idDebt);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();

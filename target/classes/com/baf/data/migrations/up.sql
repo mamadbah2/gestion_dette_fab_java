@@ -15,7 +15,7 @@ CREATE TABLE Client (
     id SERIAL PRIMARY KEY,
     surname VARCHAR(255) NOT NULL,
     telephone VARCHAR(20) NOT NULL UNIQUE,
-    address TEXT NOT NULL,
+    addresse TEXT NOT NULL,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     user_id INT UNIQUE, -- Lien vers un utilisateur
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE SET NULL
@@ -65,6 +65,7 @@ CREATE TABLE Payment (
 -- Création de la table des demandes de dette
 CREATE TABLE DebtRequest (
     id SERIAL PRIMARY KEY,
+    totalAmount INT NOT NULL,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     status VARCHAR(50) NOT NULL DEFAULT 'En Cours', -- "En Cours", "Annuler", "Valider"
     client_id INT NOT NULL,
@@ -75,6 +76,7 @@ CREATE TABLE DebtRequest (
 CREATE TABLE DetailDebtRequest (
     id SERIAL PRIMARY KEY,
     quantity INT NOT NULL,
+    prix INT NOT NULL,
     debt_request_id INT NOT NULL,
     article_id INT NOT NULL,
     FOREIGN KEY (debt_request_id) REFERENCES DebtRequest(id) ON DELETE CASCADE,

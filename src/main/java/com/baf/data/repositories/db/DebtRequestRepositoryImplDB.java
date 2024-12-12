@@ -16,8 +16,8 @@ public class DebtRequestRepositoryImplDB extends DatabaseImpl implements DebtReq
     @Override
     public void insert(DebtRequest data) {
         String req = String.format(
-                "Insert into debtRequest (totalMount, date, clientId) values ('%s', '%s', '%s', '%s')",
-                data.getTotalAmount(), data.getDate(), data.getStatus(), data.getClient());
+                "Insert into debtRequest (totalMount, date, status, client_id) values ('%d', '%s', '%s', '%d')",
+                data.getTotalAmount(), data.getDate(), data.getStatus(), data.getClient().getId());
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
@@ -29,9 +29,9 @@ public class DebtRequestRepositoryImplDB extends DatabaseImpl implements DebtReq
     @Override
     public List<DebtRequest> selectAll() {
         List<DebtRequest> list = new ArrayList<>();
-        String req = "SELECT dr.idDebtRequest, dr.date, dr.totalAmount, " +
+        String req = "SELECT dr.id, dr.date, dr.totalAmount, " +
                 "c.id AS client_id, c.surname AS client_surname, " +
-                "c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt " +
+                "c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt " +
                 "FROM DebtRequest dr " +
                 "JOIN Client c ON dr.client_id = c.id";
         try {
@@ -51,7 +51,7 @@ public class DebtRequestRepositoryImplDB extends DatabaseImpl implements DebtReq
     public DebtRequest convertToObject(ResultSet rs) {
         DebtRequest debtRequest = new DebtRequest();
         try {
-            debtRequest.setIdDebtRequest(rs.getInt("idDebtRequest"));
+            debtRequest.setIdDebtRequest(rs.getInt("id"));
             debtRequest.setDate(rs.getDate("date"));
             debtRequest.setTotalAmount(rs.getDouble("totalAmount"));
 
@@ -74,9 +74,9 @@ public class DebtRequestRepositoryImplDB extends DatabaseImpl implements DebtReq
 
     @Override
     public DebtRequest getDebtRequestByClient(Client client) {
-        String req = String.format("SELECT dr.idDebtRequest, dr.date, dr.totalAmount, " +
+        String req = String.format("SELECT dr.id, dr.date, dr.totalAmount, " +
                 "c.id AS client_id, c.surname AS client_surname, " +
-                "c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt " +
+                "c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt " +
                 "FROM DebtRequest dr " +
                 "JOIN Client c ON dr.client_id = c.id" +
                 "where clientId = '%d'", client.getId());
@@ -96,7 +96,7 @@ public class DebtRequestRepositoryImplDB extends DatabaseImpl implements DebtReq
 
     @Override
     public void updateStatus(int idDebtRequest, String status) {
-        String req = String.format("Update debtRequest set status = '%s' where idDebtRequest = '%s'", status,
+        String req = String.format("Update DebtRequest set status = '%s' where id = '%s'", status,
                 idDebtRequest);
         try {
             this.initPreparedStatement(req);
@@ -108,9 +108,9 @@ public class DebtRequestRepositoryImplDB extends DatabaseImpl implements DebtReq
 
     @Override
     public DebtRequest selectById(int idDebtRequest) {
-        String req = String.format("SELECT dr.idDebtRequest, dr.date, dr.totalAmount, " +
+        String req = String.format("SELECT dr.id, dr.date, dr.totalAmount, " +
                 "c.id AS client_id, c.surname AS client_surname, " +
-                "c.telephone AS client_telephone, c.adresse AS client_adresse, c.createAt AS client_createAt " +
+                "c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt " +
                 "FROM DebtRequest dr " +
                 "JOIN Client c ON dr.client_id = c.id" + 
                 " where idDebtRequest = '%s'", idDebtRequest);
