@@ -27,17 +27,6 @@ public class DebtView extends ViewImpl<Debt> {
         this.detailDebtService = detailDebtService;
     }
 
-    // public void displayAllPaidDebts(Client client) {
-    //     List<Debt> debts = debtServ.getAllPaidDebt();
-    //     for (Debt debt : debts) {
-    //         if (debt.getClient().equals(client)) {
-    //             System.out.println(debt.toString());
-    //         }
-    //     }
-    // }
-
-
-
     public void displayAllUnpaidDebts() {
         Client client = clientView.findClientByTel();
         if (client == null) {

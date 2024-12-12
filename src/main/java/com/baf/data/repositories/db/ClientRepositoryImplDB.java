@@ -16,10 +16,10 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
     @Override
     public void insert(Client data) {
         String req = String.format(
-                "Insert into client (surname, telephone, adresse, userId) values ('%s', '%s', '%s', '%s')",
+                "INSERT INTO Client (surname, telephone, address, user_id) values ('%s', '%s', '%s', '%s')",
                 data.getSurname(), data.getTelephone(), data.getAdresse(), data.getUser());
         if (data.getUser() == null) {
-            req = String.format("Insert into client (surname, telephone, adresse) values ('%s', '%s', '%s')",
+            req = String.format("INSERT INTO client (surname, telephone, address) values ('%s', '%s', '%s')",
                     data.getSurname(), data.getTelephone(), data.getAdresse());
         }
         try {
@@ -35,10 +35,11 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
         List<Client> clients = new ArrayList<>();
         String req = "SELECT " +
                 "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, " +
-                "c.adresse AS client_adresse, c.create_at AS client_createAt, " +
-                "u.id AS user_id, u.name AS user_name, u.email AS user_email, u.role AS user_role " +
-                "FROM client c " +
-                "LEFT JOIN users u ON c.user_id = u.id";
+                "c.address AS client_adresse, c.date AS client_createAt, " +
+                "u.id AS user_id, u.login AS user_login, u.email AS user_email, u.role AS user_role " +
+                "u.is_active AS user_is_active" +
+                "FROM Client c " +
+                "LEFT JOIN Users u ON c.user_id = u.id";
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -56,17 +57,18 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
     public Client convertToObject(ResultSet rs) {
         Client client = new Client();
         try {
-            client.setId(rs.getInt("id"));
-            client.setSurname(rs.getString("surname"));
-            client.setTelephone(rs.getString("telephone"));
-            client.setAdresse(rs.getString("adresse"));
-            client.setCreateAt(rs.getDate("create_at"));
+            client.setId(rs.getInt("client_id"));
+            client.setSurname(rs.getString("client_surname"));
+            client.setTelephone(rs.getString("client_telephone"));
+            client.setAdresse(rs.getString("client_adresse"));
+            client.setCreateAt(rs.getDate("client_create_at"));
             User user = new User();
-            user.setIdUser(rs.getInt("userId"));
-            user.setLogin(rs.getString("login"));
-            user.setEmail(rs.getString("email"));
-            user.setPassword(rs.getString("password"));
-            String str_role = rs.getString("role");
+            user.setIdUser(rs.getInt("user_userId"));
+            user.setLogin(rs.getString("user_login"));
+            user.setEmail(rs.getString("user_email"));
+            user.setPassword(rs.getString("user_password"));
+            user.setIsActive(rs.getBoolean("user_is_active"));
+            String str_role = rs.getString("user_role");
             switch (str_role) {
                 case "ADMIN":
                     user.setRole(Role.ADMIN);
@@ -90,11 +92,12 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
     public Client selectByTel(String tel) {
         String req = String.format("SELECT " +
                 "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, " +
-                "c.adresse AS client_adresse, c.create_at AS client_createAt, " +
-                "u.id AS user_id, u.name AS user_name, u.email AS user_email, u.role AS user_role " +
-                "FROM client c " +
-                "LEFT JOIN users u ON c.user_id = u.id"
-                + " where telephone = '%s'", tel);
+                "c.address AS client_adresse, c.date AS client_createAt, " +
+                "u.id AS user_id, u.login AS user_login, u.email AS user_email, u.role AS user_role " +
+                "u.is_active AS user_is_active" +
+                "FROM Client c " +
+                "LEFT JOIN Users u ON c.user_id = u.id"
+                + " WHERE telephone = '%s'", tel);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -112,11 +115,12 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
     public Client selectBySurname(String surname) {
         String req = String.format("SELECT " +
                 "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, " +
-                "c.adresse AS client_adresse, c.create_at AS client_createAt, " +
-                "u.id AS user_id, u.name AS user_name, u.email AS user_email, u.role AS user_role " +
-                "FROM client c " +
-                "LEFT JOIN users u ON c.user_id = u.id"
-                + " where surname = '%s'", surname);
+                "c.address AS client_adresse, c.date AS client_createAt, " +
+                "u.id AS user_id, u.login AS user_login, u.email AS user_email, u.role AS user_role " +
+                "u.is_active AS user_is_active" +
+                "FROM Client c " +
+                "LEFT JOIN Users u ON c.user_id = u.id"
+                + " WHERE surname = '%s'", surname);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -133,12 +137,13 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
     @Override
     public Client selectById(int id) {
         String req = String.format("SELECT " +
-        "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, " +
-        "c.adresse AS client_adresse, c.create_at AS client_createAt, " +
-        "u.id AS user_id, u.name AS user_name, u.email AS user_email, u.role AS user_role " +
-        "FROM client c " +
-        "LEFT JOIN users u ON c.user_id = u.id"
-        + " where c.id = '%d'", id);
+                "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, " +
+                "c.address AS client_adresse, c.date AS client_createAt, " +
+                "u.id AS user_id, u.login AS user_login, u.email AS user_email, u.role AS user_role " +
+                "u.is_active AS user_is_active" +
+                "FROM Client c " +
+                "LEFT JOIN Users u ON c.user_id = u.id"
+        + " WHERE c.id = '%d'", id);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -154,7 +159,7 @@ public class ClientRepositoryImplDB extends DatabaseImpl implements ClientReposi
 
     @Override
     public void createAccount(int id, User user) {
-        String req = String.format("Update client set userId = %d where id = %d", user.getIdUser(), id);
+        String req = String.format("UPDATE Client set user_id = %d WHERE id = %d", user.getIdUser(), id);
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
