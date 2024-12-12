@@ -16,8 +16,8 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     @Override
     public void insert(DetailDebt data) {
         String req = String.format(
-                "Insert into detailDebt (qte, prix, idArticle, idDebt) values ('%s', '%s', '%s', '%s')",
-                data.getQte(), data.getPrix(), data.getArticle(), data.getDebt());
+                "Insert into DetailDebt (quantity, prix, article_id, debt_id) values ('%d', '%d', '%d', '%d')",
+                data.getQte(), data.getPrix(), data.getArticle().getId(), data.getDebt().getIdDebt());
         try {
             this.initPreparedStatement(req);
             this.executeUpdate();
@@ -29,7 +29,17 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     @Override
     public List<DetailDebt> selectAll() {
         List<DetailDebt> list = new ArrayList<>();
-        String req = "Select * from detailDebt";
+        String req = "SELECT dd.id, dd.quantity, dd.prix, " +
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                +
+                "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
+                +
+                "FROM DetailDebt dd " +
+                "JOIN Article a ON dd.article_id = a.id " +
+                "JOIN Debt d ON dd.debt_id = d.id";
+
+        ;
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -48,7 +58,7 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
         DetailDebt detailDebt = new DetailDebt();
         try {
             detailDebt.setId(rs.getInt("id"));
-            detailDebt.setQte(rs.getInt("qte"));
+            detailDebt.setQte(rs.getInt("quantity"));
             detailDebt.setPrix(rs.getDouble("prix"));
 
             // Mapping de l'article
@@ -82,7 +92,16 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
 
     @Override
     public DetailDebt getDetailDebtById(int idDetailDebt) {
-        String req = String.format("Select * from detailDebt where idDetailDebt = %d", idDetailDebt);
+        String req = String.format("SELECT dd.id, dd.quantity, dd.prix, " +
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                +
+                "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
+                +
+                "FROM DetailDebt dd " +
+                "JOIN Article a ON dd.article_id = a.id " +
+                "JOIN Debt d ON dd.debt_id = d.id" + 
+                " WHERE dd.id = %d", idDetailDebt);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -99,7 +118,16 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
 
     @Override
     public List<DetailDebt> getAllDetailDebtByArticleId(int idArticle) {
-        String req = String.format("Select * from detailDebt where idArticle = %d", idArticle);
+        String req = String.format("SELECT dd.id, dd.quantity, dd.prix, " +
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                +
+                "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
+                +
+                "FROM DetailDebt dd " +
+                "JOIN Article a ON dd.article_id = a.id " +
+                "JOIN Debt d ON dd.debt_id = d.id"+
+                " where idArticle = %d", idArticle);
         List<DetailDebt> list = new ArrayList<>();
         try {
             this.initPreparedStatement(req);
@@ -114,7 +142,16 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     }
 
     public List<DetailDebt> selectAllByDebtId(int idDebt) {
-        String req = String.format("Select * from detailDebt where idDebt = %d", idDebt);
+        String req = String.format("SELECT dd.id, dd.quantity, dd.prix, " +
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                +
+                "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
+                "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
+                +
+                "FROM DetailDebt dd " +
+                "JOIN Article a ON dd.article_id = a.id " +
+                "JOIN Debt d ON dd.debt_id = d.id"+
+                "where idDebt = %d", idDebt);
         List<DetailDebt> list = new ArrayList<>();
         try {
             this.initPreparedStatement(req);

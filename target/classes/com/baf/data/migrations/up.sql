@@ -26,8 +26,7 @@ CREATE TABLE Article (
     id SERIAL PRIMARY KEY,
     libelle VARCHAR(255) NOT NULL,
     qte_stock INT NOT NULL DEFAULT 0,
-    prix NUMERIC(10, 2) NOT NULL,
-    is_archived BOOLEAN DEFAULT FALSE
+    prix NUMERIC(10, 2) NOT NULL
 );
 
 -- Création de la table des dettes
