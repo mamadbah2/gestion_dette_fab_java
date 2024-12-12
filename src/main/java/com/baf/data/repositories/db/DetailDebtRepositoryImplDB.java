@@ -127,7 +127,7 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
                 "FROM DetailDebt dd " +
                 "JOIN Article a ON dd.article_id = a.id " +
                 "JOIN Debt d ON dd.debt_id = d.id"+
-                " where idArticle = %d", idArticle);
+                " where id = %d", idArticle);
         List<DetailDebt> list = new ArrayList<>();
         try {
             this.initPreparedStatement(req);
@@ -151,7 +151,7 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
                 "FROM DetailDebt dd " +
                 "JOIN Article a ON dd.article_id = a.id " +
                 "JOIN Debt d ON dd.debt_id = d.id"+
-                "where idDebt = %d", idDebt);
+                "where id = %d", idDebt);
         List<DetailDebt> list = new ArrayList<>();
         try {
             this.initPreparedStatement(req);
