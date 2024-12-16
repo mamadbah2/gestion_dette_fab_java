@@ -1,12 +1,10 @@
 package com.baf.data.entities;
 
 import lombok.Data;
-import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
 @Data
-@ToString
 public class Client {
     private int id;
     private String surname;
@@ -19,6 +17,11 @@ public class Client {
         debts.add(debt);
     }
     private User userAccount;
+    @Override
+    public String toString() {
+        return "Client [id=" + id + ", surname=" + surname + ", telephone=" + telephone + ", createAt=" + createAt
+                + "]";
+    }
 
     // private String 
 }

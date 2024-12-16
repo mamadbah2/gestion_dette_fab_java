@@ -16,7 +16,7 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     @Override
     public void insert(DetailDebt data) {
         String req = String.format(
-                "Insert into DetailDebt (quantity, prix, article_id, debt_id) values ('%d', '%d', '%d', '%d')",
+                "Insert into \"public\".\"DetailDebt\" (quantity, prix, article_id, debt_id) values ('%d', '%d', '%d', '%d')",
                 data.getQte(), data.getPrix(), data.getArticle().getId(), data.getDebt().getIdDebt());
         try {
             this.initPreparedStatement(req);
@@ -30,14 +30,14 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     public List<DetailDebt> selectAll() {
         List<DetailDebt> list = new ArrayList<>();
         String req = "SELECT dd.id, dd.quantity, dd.prix, " +
-                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qte_stock, a.prix AS article_prix, "
                 +
                 "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
                 "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
                 +
-                "FROM DetailDebt dd " +
-                "JOIN Article a ON dd.article_id = a.id " +
-                "JOIN Debt d ON dd.debt_id = d.id";
+                "FROM \"public\".\"DetailDebt\"  dd " +
+                "JOIN \"public\".\"Article\"  a ON dd.article_id = a.id " +
+                "JOIN \"public\".\"Debt\"  d ON dd.debt_id = d.id";
 
         ;
         try {
@@ -59,7 +59,7 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
         try {
             detailDebt.setId(rs.getInt("id"));
             detailDebt.setQte(rs.getInt("quantity"));
-            detailDebt.setPrix(rs.getDouble("prix"));
+            detailDebt.setPrix(rs.getInt("prix"));
 
             // Mapping de l'article
             int articleId = rs.getInt("article_id");
@@ -67,7 +67,7 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
                 Article article = new Article();
                 article.setId(articleId);
                 article.setLibelle(rs.getString("article_libelle"));
-                article.setQteStock(rs.getInt("article_qteStock"));
+                article.setQte_stock(rs.getInt("article_qte_stock"));
                 article.setPrix(rs.getInt("article_prix"));
                 detailDebt.setArticle(article);
             }
@@ -93,14 +93,14 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     @Override
     public DetailDebt getDetailDebtById(int idDetailDebt) {
         String req = String.format("SELECT dd.id, dd.quantity, dd.prix, " +
-                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qte_stock, a.prix AS article_prix, "
                 +
                 "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
                 "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
                 +
-                "FROM DetailDebt dd " +
-                "JOIN Article a ON dd.article_id = a.id " +
-                "JOIN Debt d ON dd.debt_id = d.id" + 
+                "FROM \"public\".\"DetailDebt\"  dd " +
+                "JOIN \"public\".\"Article\"  a ON dd.article_id = a.id " +
+                "JOIN \"public\".\"Debt\"  d ON dd.debt_id = d.id" + 
                 " WHERE dd.id = %d", idDetailDebt);
         try {
             this.initPreparedStatement(req);
@@ -119,14 +119,14 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
     @Override
     public List<DetailDebt> getAllDetailDebtByArticleId(int idArticle) {
         String req = String.format("SELECT dd.id, dd.quantity, dd.prix, " +
-                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qte_stock, a.prix AS article_prix, "
                 +
                 "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
                 "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
                 +
-                "FROM DetailDebt dd " +
-                "JOIN Article a ON dd.article_id = a.id " +
-                "JOIN Debt d ON dd.debt_id = d.id"+
+                "FROM \"public\".\"DetailDebt\"  dd " +
+                "JOIN \"public\".\"Article\"  a ON dd.article_id = a.id " +
+                "JOIN \"public\".\"Debt\"  d ON dd.debt_id = d.id"+
                 " where id = %d", idArticle);
         List<DetailDebt> list = new ArrayList<>();
         try {
@@ -143,14 +143,14 @@ public class DetailDebtRepositoryImplDB extends DatabaseImpl implements DetailDe
 
     public List<DetailDebt> selectAllByDebtId(int idDebt) {
         String req = String.format("SELECT dd.id, dd.quantity, dd.prix, " +
-                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qteStock, a.prix AS article_prix, "
+                "a.id AS article_id, a.libelle AS article_libelle, a.qte_stock AS article_qte_stock, a.prix AS article_prix, "
                 +
                 "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
                 "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved "
                 +
-                "FROM DetailDebt dd " +
-                "JOIN Article a ON dd.article_id = a.id " +
-                "JOIN Debt d ON dd.debt_id = d.id"+
+                "FROM \"public\".\"DetailDebt\"  dd " +
+                "JOIN \"public\".\"Article\"  a ON dd.article_id = a.id " +
+                "JOIN \"public\".\"Debt\"  d ON dd.debt_id = d.id"+
                 "where id = %d", idDebt);
         List<DetailDebt> list = new ArrayList<>();
         try {

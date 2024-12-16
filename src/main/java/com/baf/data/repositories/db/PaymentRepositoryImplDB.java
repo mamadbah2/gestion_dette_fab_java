@@ -14,7 +14,7 @@ import com.baf.data.repositories.PaymentRepository;
 public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepository {
 
     public void insert(Payment data) {
-        String req = String.format("Insert into payment (date, amount, debt_id) values (%s, %d, %d)",
+        String req = String.format("Insert into \"public\".\"Payment\" (date, amount, debt_id) values (%s, %d, %d)",
                 data.getDate(), data.getAmount(), data.getDebt().getIdDebt());
         try {
             this.initPreparedStatement(req);
@@ -31,9 +31,9 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
                 +
                 "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt "
                 +
-                "FROM Payment p " +
-                "JOIN Debt d ON p.debt_id = d.id " +
-                "JOIN Client c ON d.client_id = c.id";
+                "FROM \"public\".\"Payment\" p " +
+                "JOIN \"public\".\"Debt\" d ON p.debt_id = d.id " +
+                "JOIN \"public\".\"Client\" c ON d.client_id = c.id";
 
         List<Payment> list = new ArrayList<>();
         try {
@@ -57,9 +57,9 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
                         +
                         "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt "
                         +
-                        "FROM Payment p " +
-                        "JOIN Debt d ON p.debt_id = d.id " +
-                        "JOIN Client c ON d.client_id = c.id" +
+                        "FROM \"public\".\"Payment\" p " +
+                        "JOIN \"public\".\"Debt\" d ON p.debt_id = d.id " +
+                        "JOIN \"public\".\"Client\" c ON d.client_id = c.id" +
                         "where id = %d",
                 idPayment);
         try {
@@ -82,9 +82,9 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
                 +
                 "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt "
                 +
-                "FROM Payment p " +
-                "JOIN Debt d ON p.debt_id = d.id " +
-                "JOIN Client c ON d.client_id = c.id" +
+                "FROM \"public\".\"Payment\" p " +
+                "JOIN \"public\".\"Debt\" d ON p.debt_id = d.id " +
+                "JOIN \"public\".\"Client\" c ON d.client_id = c.id" +
                 "where id = %d", idDebt);
         try {
             this.initPreparedStatement(req);
@@ -105,9 +105,9 @@ public class PaymentRepositoryImplDB extends DatabaseImpl implements PaymentRepo
              "d.id AS debt_id, d.mount AS debt_mount, d.date AS debt_date, " +
              "d.amount_paid AS debt_paidMount, d.remaining_amount AS debt_remainingMount, d.is_achievied AS debt_isAchieved, " +
              "c.id AS client_id, c.surname AS client_surname, c.telephone AS client_telephone, c.adresse AS client_adresse, c.date AS client_createAt " +
-             "FROM Payment p " +
-             "JOIN Debt d ON p.debt_id = d.id " +
-             "JOIN Client c ON d.client_id = c.id" + 
+             "FROM \"public\".\"Payment\" p " +
+             "JOIN \"public\".\"Debt\" d ON p.debt_id = d.id " +
+             "JOIN \"public\".\"Client\" c ON d.client_id = c.id" + 
              "where id = %d", idDebt);
         try {
             this.initPreparedStatement(req);

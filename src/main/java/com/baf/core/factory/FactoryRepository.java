@@ -28,7 +28,6 @@ public class FactoryRepository {
     private static DetailDebtRequestRepository detailDebtRequestRepository;
     private static DetailDebtRepository detailDebtRepository;
 
-
     // Méthode pour créer un clientRepository
     public static ClientRepository createClientRepository() {
         if (clientRepository == null) {
@@ -87,4 +86,6 @@ public class FactoryRepository {
         }
         return detailDebtRepository;
     }
+
+
 }

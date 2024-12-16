@@ -6,39 +6,42 @@ import java.util.List;
 
 
 public class DebtRequest {
-    int idDebtRequest;
+    int id;
     Date date;
-    private double totalAmount;
+    private int totalAmount;
+    private String status;
+    private int nbre = 0;
     Client client;
-    private List<DetailDebtRequest> detailDebts = new ArrayList<DetailDebtRequest>();
+    private List<DetailDebtRequest> detailDebts = new ArrayList<>();
 
     public void setDetailDebts(List<DetailDebtRequest> detailDebts) {
         this.detailDebts = detailDebts;
     }
-    public double getTotalAmount() {
+    public int getTotalAmount() {
         return totalAmount;
     }
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
     }
-    String status;
-    int nbre = 0;
     
     public List<DetailDebtRequest> getDetailDebts() {
         return detailDebts;
     }
     public DebtRequest() {
-        idDebtRequest = nbre++;
+        id = nbre++;
     }
-    public int getIdDebtRequest() {
-        return idDebtRequest;
+    public int getId() {
+        return id;
     }
 
     public void addDetailDebt(DetailDebtRequest detailDebt){
+        if (this.detailDebts == null) {
+            this.detailDebts = new ArrayList<>();
+        }
         detailDebts.add(detailDebt);
     }
-    public void setIdDebtRequest(int idDebtRequest) {
-        this.idDebtRequest = idDebtRequest;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDate() {
@@ -69,15 +72,15 @@ public class DebtRequest {
         return status;
     }
 
-    public DebtRequest(int idDebtRequest, Date date, Client client, List<Article> articles, String status) {
-        this.idDebtRequest = idDebtRequest;
+    public DebtRequest(int id, Date date, Client client, List<Article> articles, String status) {
+        this.id = id;
         this.date = date;
         this.client = client;
         this.status = status;
     }
     @Override
     public String toString() {
-        return "DebtRequest [idDebtRequest=" + idDebtRequest + ", date=" + date + ", client=" + client.toString()
+        return "DebtRequest [Id=" + id + ", date=" + date + ", client=" + client.toString()
                 + ", detailDebts=" + detailDebts.toString() + ", status=" + status + ", nbre=" + nbre + ", total=" + totalAmount + "]";
     }
   

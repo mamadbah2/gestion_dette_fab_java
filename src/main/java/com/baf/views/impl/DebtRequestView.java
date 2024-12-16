@@ -22,9 +22,8 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
     private DebtRequestServ detteRequestServ;
     private DetailDebtRequestService detailDebtRequestService;
 
-
     public DebtRequestView(ArticleView articleView, ArticleService articleService, ClientView clientView,
-            DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtRequestService, 
+            DebtRequestServ detteRequestServ, DetailDebtRequestService detailDebtRequestService,
             DebtServ debtServ) {
         this.debtServ = debtServ;
         this.articleView = articleView;
@@ -43,18 +42,19 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
 
     // @Override
     // public void liste(List<DebtRequest> detteRequests) {
-    // if (detteRequests.isEmpty()) {
-    // System.out.println("Aucune demande de dette trouvée.");
-    // return;
-    // }
-    // detteRequests.forEach(detteRequest ->
-    // System.out.println(detteRequest.toString()));
+    //     if (detteRequests.isEmpty()) {
+    //         System.out.println("Aucune demande de dette trouvée.");
+    //         return;
+    //     }
+    //     detteRequests.forEach(detteRequest -> System.out.println(detteRequest.toString()));
     // }
 
     @Override
+
     public DebtRequest saisie() {
         DebtRequest debtRequest = new DebtRequest();
-        System.out.println("Indentifie toi");
+        System.out.println("Identifie toi");
+
         Client client = clientView.findClientByTel();
         if (client == null) {
             System.out.println("Client non trouvé");
@@ -62,17 +62,14 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
         }
 
         System.out.println("Demande de dette");
-        // Affichage des articles disponibles
-        System.out.println("Les articles de la dette:");
         List<Article> articles = articleService.selectAll();
         articleView.liste(articles);
-        boolean continuer = true;
 
+        boolean continuer = true;
         while (continuer) {
             System.out.println("Entrez le libellé de l'article:");
             String reponse = scanner.nextLine();
 
-            // Recherche de l'article correspondant au libellé
             Article article = articles.stream()
                     .filter(a -> a.getLibelle().equalsIgnoreCase(reponse))
                     .findFirst()
@@ -82,41 +79,46 @@ public class DebtRequestView extends ViewImpl<DebtRequest> {
                 DetailDebtRequest detailDebt = new DetailDebtRequest();
                 System.out.println("Entrez la quantité de l'article:");
                 int qte = scanner.nextInt();
-                if (qte > 0 && qte <= article.getQteStock()) {
+
+                if (qte > 0 && qte <= article.getQte_stock()) {
                     detailDebt.setQte(qte);
                     detailDebt.setPrix(article.getPrix() * qte);
                     debtRequest.setTotalAmount(detailDebt.getPrix() + debtRequest.getTotalAmount());
                     detailDebt.setArticle(article);
+
+                    // IMPORTANT : Ne PAS insérer DetailDebtRequest ici
                     debtRequest.addDetailDebt(detailDebt);
-                    detailDebt.setDebtRequest(debtRequest);
-                    detailDebtRequestService.insert(detailDebt);
                     System.out.println("Article ajouté : " + article.getLibelle());
                 } else {
                     System.out.println("Quantité invalide.");
                 }
-
             } else {
                 System.out.println("Aucun article avec le libellé \"" + reponse + "\" trouvé.");
             }
 
-            // Demander si l'utilisateur veut ajouter un autre article
-            scanner.nextLine();
+            scanner.nextLine(); // Consommer le newline
             System.out.println("Voulez-vous ajouter un autre article ? (oui/non):");
             String choix = scanner.nextLine();
+
             if (!choix.equalsIgnoreCase("oui")) {
                 continuer = false;
             }
         }
 
-        // Affichage des articles sélectionnés
-        // System.out.println("Articles sélectionnés :");
-        // debtRequest.getDetailDebts().forEach(detailDebt -> System.out.println("- " +
-        // detailDebt.getArticle().getLibelle()));
         debtRequest.setClient(client);
-
         debtRequest.setStatus("en cours");
         debtRequest.setDate(new Date());
-        // System.out.println(debtRequest.toString());
+
+        // NOUVEAU : Insérer DebtRequest en premier
+        int debtRequestId = detteRequestServ.insertWithId(debtRequest, 0);
+        System.out.println("ID de la demande de dette : " + debtRequestId);
+        // Ensuite, insérer les DetailDebtRequest avec l'ID généré
+        for (DetailDebtRequest detailDebt : debtRequest.getDetailDebts()) {
+            detailDebt.setId(debtRequestId);
+            detailDebt.setDebtRequest(debtRequest);
+            detailDebtRequestService.insert(detailDebt);
+        }
+
         return debtRequest;
     }
 

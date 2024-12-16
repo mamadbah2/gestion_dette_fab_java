@@ -20,7 +20,7 @@ public class DebtRequestList extends RepositoryImplList<DebtRequest>  implements
 
     public void updateStatus(int idDebtRequest, String status) {
         for (DebtRequest debtRequestCl : data) {
-            if (debtRequestCl.getIdDebtRequest() == idDebtRequest) {
+            if (debtRequestCl.getId() == idDebtRequest) {
                 debtRequestCl.setStatus(status);
             }
         }
@@ -29,10 +29,16 @@ public class DebtRequestList extends RepositoryImplList<DebtRequest>  implements
     @Override
     public DebtRequest selectById(int idDebtRequest) {
         for (DebtRequest debtRequest : data) {
-            if (debtRequest.getIdDebtRequest() == idDebtRequest) {
+            if (debtRequest.getId() == idDebtRequest) {
                 return debtRequest;
             }
         }
         return null;
+    }
+
+    @Override
+    public int insertWithId(DebtRequest data, int $index) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insert'");
     }
 }

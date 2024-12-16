@@ -1,21 +1,20 @@
 package com.baf.data.entities;
 
 import lombok.Data;
-
 @Data
 public class DetailDebt {
     private int id;
     private Article article;
     private Debt debt;
     private int qte;
-    private double prix;
+    private int prix;
     private static int nbre = 0;
 
     public DetailDebt() {
         id = nbre++;
     }
 
-    public DetailDebt(Article article, int qte, double prix) {
+    public DetailDebt(Article article, int qte, int prix) {
         this.article = article;
         this.qte = qte;
         this.prix = prix;

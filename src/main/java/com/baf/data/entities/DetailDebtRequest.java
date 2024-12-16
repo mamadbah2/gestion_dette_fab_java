@@ -7,14 +7,14 @@ public class DetailDebtRequest {
     private Article article;
     private DebtRequest debtRequest;
     private int qte;
-    private double prix;
+    private int prix;
     private static int nbre = 0;
 
     public DetailDebtRequest() {
         id = nbre++;
     }
 
-    public DetailDebtRequest(Article article, int qte, double prix) {
+    public DetailDebtRequest(Article article, int qte, int prix) {
         this.article = article;
         this.qte = qte;
         this.prix = prix;

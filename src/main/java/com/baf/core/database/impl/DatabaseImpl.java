@@ -14,20 +14,22 @@ import com.baf.core.database.Database;
 public class DatabaseImpl implements Database {
     protected Connection conn = null;
     protected PreparedStatement ps;
-    protected String dbName = "gestion_dette";
-    protected String userName = "postgres";
-    protected String userPassword = "postgres";
+    protected String dbName = "gestion_dette_test";
+    protected String userName = "app";
+    protected String userPassword = "root";
 
     @Override
     public void getConnection() throws SQLException {
         try {
-            Class.forName("org.postgresql.Driver");
+            // Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, userName, userPassword);
-        } catch (ClassNotFoundException e) {
+            System.out.println("Connection to database " + dbName + " successful: "+ conn);
+        }catch (SQLException e) {
+            System.out.println("Connection to database " + dbName + " failed");
             e.printStackTrace();
+
         }
     }
-
     @Override
     public void closeConnection() throws SQLException {
         if (conn != null || !conn.isClosed()) {
@@ -51,6 +53,9 @@ public class DatabaseImpl implements Database {
     
     @Override
     public void initPreparedStatement(String req) throws SQLException {
+        if (this.conn == null || this.conn.isClosed()) {
+            getConnection();
+        }
         if (req.trim().toUpperCase().startsWith("SELECT")) {
             ps = conn.prepareStatement(req);
         } else {

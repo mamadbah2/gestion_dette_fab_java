@@ -1,36 +1,36 @@
 -- Fichier de migration pour PostgreSQL
 
 -- Création de la table des utilisateurs
-CREATE TABLE Users (
+CREATE TABLE "public"."User" (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    login VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL, -- Par exemple: "Admin", "Boutiquier", "Client"
+    email TEXT NOT NULL UNIQUE,
+    login TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL, -- Par exemple: "Admin", "Boutiquier", "Client"
     is_active BOOLEAN DEFAULT TRUE
 );
 
 -- Création de la table des clients
-CREATE TABLE Client (
+CREATE TABLE "public"."Client" (
     id SERIAL PRIMARY KEY,
-    surname VARCHAR(255) NOT NULL,
-    telephone VARCHAR(20) NOT NULL UNIQUE,
-    addresse TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    telephone TEXT NOT NULL UNIQUE,
+    address TEXT NOT NULL,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     user_id INT UNIQUE, -- Lien vers un utilisateur
-    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES "public"."User"(id) ON DELETE SET NULL
 );
 
 -- Création de la table des articles
-CREATE TABLE Article (
+CREATE TABLE "public"."Article" (
     id SERIAL PRIMARY KEY,
-    libelle VARCHAR(255) NOT NULL,
+    libelle TEXT NOT NULL,
     qte_stock INT NOT NULL DEFAULT 0,
-    prix NUMERIC(10, 2) NOT NULL
+    prix INT NOT NULL
 );
 
 -- Création de la table des dettes
-CREATE TABLE Debt (
+CREATE TABLE "public"."Debt" (
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     mount NUMERIC(10, 2) NOT NULL,
@@ -38,52 +38,52 @@ CREATE TABLE Debt (
     remaining_amount NUMERIC(10, 2) NOT NULL,
     is_achievied BOOLEAN DEFAULT FALSE,
     client_id INT NOT NULL,
-    FOREIGN KEY (client_id) REFERENCES Client(id) ON DELETE CASCADE
+    FOREIGN KEY (client_id) REFERENCES "public"."Client" (id) ON DELETE CASCADE
 );
 
 -- Création de la table des détails de dettes
-CREATE TABLE DetailDebt (
+CREATE TABLE "public"."DetailDebt" (
     id SERIAL PRIMARY KEY,
     quantity INT NOT NULL,
     prix NUMERIC(10, 2) NOT NULL,
     article_id INT NOT NULL,
     debt_id INT NOT NULL,
-    FOREIGN KEY (debt_id) REFERENCES Debt(id) ON DELETE CASCADE,
-    FOREIGN KEY (article_id) REFERENCES Article(id) ON DELETE CASCADE
+    FOREIGN KEY (debt_id) REFERENCES "public"."Debt"(id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES "public"."Article"(id) ON DELETE CASCADE
 );
 
 -- Création de la table des paiements
-CREATE TABLE Payment (
+CREATE TABLE "public"."Payment" (
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     amount NUMERIC(10, 2) NOT NULL,
     debt_id INT NOT NULL,
-    FOREIGN KEY (debt_id) REFERENCES Debt(id) ON DELETE CASCADE
+    FOREIGN KEY (debt_id) REFERENCES "public"."Debt"(id) ON DELETE CASCADE
 );
 
 -- Création de la table des demandes de dette
-CREATE TABLE DebtRequest (
+CREATE TABLE "public"."DebtRequest" (
     id SERIAL PRIMARY KEY,
     totalAmount INT NOT NULL,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
-    status VARCHAR(50) NOT NULL DEFAULT 'En Cours', -- "En Cours", "Annuler", "Valider"
+    status TEXT NOT NULL DEFAULT 'En Cours', -- "En Cours", "Annuler", "Valider"
     client_id INT NOT NULL,
-    FOREIGN KEY (client_id) REFERENCES Client(id) ON DELETE CASCADE
+    FOREIGN KEY (client_id) REFERENCES "public"."Client"(id) ON DELETE CASCADE
 );
 
 -- Création de la table des détails des demandes de dette
-CREATE TABLE DetailDebtRequest (
+CREATE TABLE "public"."DetailDebtRequest" (
     id SERIAL PRIMARY KEY,
     quantity INT NOT NULL,
     prix INT NOT NULL,
     debt_request_id INT NOT NULL,
     article_id INT NOT NULL,
-    FOREIGN KEY (debt_request_id) REFERENCES DebtRequest(id) ON DELETE CASCADE,
-    FOREIGN KEY (article_id) REFERENCES Article(id) ON DELETE CASCADE
+    FOREIGN KEY (debt_request_id) REFERENCES "public"."DebtRequest"(id) ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES "public"."Article"(id) ON DELETE CASCADE
 );
 
 -- Contraintes supplémentaires pour garantir l'intégrité des données
-ALTER TABLE Debt ADD CONSTRAINT chk_remaining_amount CHECK (remaining_amount >= 0);
-ALTER TABLE Payment ADD CONSTRAINT chk_payment_amount CHECK (amount > 0);
-ALTER TABLE DetailDebt ADD CONSTRAINT chk_quantity CHECK (quantity > 0);
-ALTER TABLE DetailDebtRequest ADD CONSTRAINT chk_request_quantity CHECK (quantity > 0);
+ALTER TABLE "public"."Debt" ADD CONSTRAINT chk_remaining_amount CHECK (remaining_amount >= 0);
+ALTER TABLE "public"."Payment"  ADD CONSTRAINT chk_payment_amount CHECK (amount > 0);
+ALTER TABLE "public"."DetailDebt"  ADD CONSTRAINT chk_quantity CHECK (quantity > 0);
+ALTER TABLE "public"."DetailDebtRequest"  ADD CONSTRAINT chk_request_quantity CHECK (quantity > 0);

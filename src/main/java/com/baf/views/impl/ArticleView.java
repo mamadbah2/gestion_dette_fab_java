@@ -26,9 +26,9 @@ public class ArticleView extends ViewImpl<Article> {
         System.out.println(articleExist);
         do {
             System.out.println("Veuillez saisir la quantite en stock");
-            article.setQteStock(scanner.nextInt());
+            article.setQte_stock(scanner.nextInt());
 
-        } while (article.getQteStock() < 0);
+        } while (article.getQte_stock() < 0);
 
         do {
             System.out.println("Veuillez saisir le prix");
@@ -41,7 +41,7 @@ public class ArticleView extends ViewImpl<Article> {
     public void showAvailableArticles() {
         System.out.println("Liste des articles disponibles : ");
         articleServices.selectAll().forEach(article -> {
-            if (article.getQteStock() > 0)
+            if (article.getQte_stock() > 0)
                 System.out.println(article.toString());
         });
     }
@@ -54,7 +54,7 @@ public class ArticleView extends ViewImpl<Article> {
         if (article != null) {
             System.out.println("Veuillez saisir la nouvelle quantite en stock");
             int qte = scanner.nextInt();
-            article.setQteStock(qte);
+            article.setQte_stock(qte);
             System.out.println("La quantite a ete mise a jour");
         } else {
             System.out.println("l'id: " + id);

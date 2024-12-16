@@ -126,7 +126,7 @@ public class DebtView extends ViewImpl<Debt> {
                 System.out.println("Entrez la quantité de l'article:");
                 int qte = scanner.nextInt();
                 scanner.nextLine(); // Consomme le retour à la ligne
-                if (qte > 0 && qte <= article.getQteStock()) {
+                if (qte > 0 && qte <= article.getQte_stock()) {
                     detailDebt.setQte(qte);
                     detailDebt.setPrix(article.getPrix() * qte);
                     detailDebt.setArticle(article);
@@ -167,12 +167,12 @@ public class DebtView extends ViewImpl<Debt> {
     }
 
     public void showDetteByClient() {
-        System.out.println("Veuillez saisir le numero de telephone du client");
         clientView.liste(clientService.selectAll());
+        System.out.println("Veuillez saisir le numero de telephone du client");
         String tel = scanner.nextLine();
         Client client = clientService.selectByTel(tel);
         if (client != null) {
-            List<Debt> dettes = debtServ.getDebtsFromClient(client);
+            List<Debt> dettes = debtServ.getAllUnpaidDebt(client);
             for (Debt dette : dettes) {
                 System.out.println(dette.toString());
                 System.out.println("Voulez-vous afficher les articles? (oui/non)");

@@ -28,11 +28,11 @@ public class MenuView {
 
         System.out.println("\n=== Menu Boutiquier ===");
         System.out.println("1. Créer un client");
-        System.out.println("2. Associer un compte utilisateur à un client");
-        System.out.println("3. Lister les clients (avec ou sans comptes)");
-        System.out.println("4. Rechercher un client par téléphone");
-        System.out.println("5. Enregistrer une dette pour un client");
-        System.out.println("6. Enregistrer un paiement pour une dette");
+        System.out.println("2. Lister les clients");
+        System.out.println("3. Rechercher un client par téléphone");
+        System.out.println("4. Enregistrer une dette pour un client");
+        System.out.println("5. Enregistrer un paiement pour une dette");
+        System.out.println("6. Lister les dettes non soldées d’un client");
         System.out.println("7. Lister les dettes non soldées d’un client");
         System.out.println("8. Gérer les demandes de dette (valider/refuser)");
         System.out.println("0. Retour");

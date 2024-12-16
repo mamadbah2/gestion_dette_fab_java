@@ -15,7 +15,7 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
 
     @Override
     public Article selectById(int id) {
-        String req = String.format("SELECT * FROM Article WHERE id = %d", id);
+        String req = String.format("SELECT * FROM \"public\".\"Article\" WHERE id = %d", id);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -32,8 +32,8 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
     @Override
     public void insert(Article article) {
         String req = String.format(
-                "INSERT INTO Article (libelle, prix, qte_stock) values ('%s', %d, %d)",
-                 article.getLibelle(), article.getPrix(), article.getQteStock());
+                "INSERT INTO \"public\".\"Article\" (libelle, qte_stock, prix ) values ('%s', %d, %d)",
+                 article.getLibelle(), article.getQte_stock(), article.getPrix());
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
@@ -45,7 +45,7 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
     @Override
     public List<Article> selectAll() {
         List<Article> articles = new ArrayList<>();
-        String req = "Select * from Article";
+        String req = "SELECT * from \"public\".\"Article\"";
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -67,8 +67,8 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
         try {
             article.setId(rs.getInt("id"));
             article.setLibelle(rs.getString("libelle"));
+            article.setQte_stock(rs.getInt("qte_stock"));
             article.setPrix(rs.getInt("prix"));
-            article.setQteStock(rs.getInt("qte_stock"));
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -78,7 +78,7 @@ public class ArticleRepositoryImplDB extends DatabaseImpl implements ArticleRepo
 
     @Override
     public Article selectByLibelle(String libelle) {
-        String req = String.format("Select * from Article where libelle = '%s'", libelle);
+        String req = String.format("SELECT * from \"public\".\"Article\" where libelle = '%s'", libelle);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();

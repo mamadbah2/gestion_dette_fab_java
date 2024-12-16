@@ -14,7 +14,8 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
 
     @Override
     public void insert(User data) {
-        String req = "INSERT INTO User (email, login,  password, role) VALUES (?, ?, ?, ?, ?)";
+        String req = String.format("INSERT INTO \"public\".\"User\" (email, login,  password, role, is_active) VALUES ('%s', '%s', '%s', '%s', '%s')",
+                data.getEmail(), data.getLogin(), data.getPassword(), data.getRole().toString(), data.getIsActive());
         try {
             this.initPreparedStatement(req);
             this.executeUpdate();
@@ -25,14 +26,14 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
 
     @Override
     public List<User> selectAll() {
-        String req = "SELECT * FROM User";
+        String req = "SELECT * FROM \"public\".\"User\"";
         List<User> list = new ArrayList<>();
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
             while (rs.next()) {
                 list.add(this.convertToObject(rs));
-            };
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,11 +44,14 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
     public User convertToObject(ResultSet rs) {
         User user = new User();
         try {
+            System.out.println("test");
+
+            System.out.println(rs.toString());
             user.setIdUser(rs.getInt("id"));
             user.setLogin(rs.getString("login"));
             user.setEmail(rs.getString("email"));
             user.setPassword(rs.getString("password"));
-            user.setIsActive(rs.getBoolean("isActive"));
+            user.setIsActive(rs.getBoolean("is_active"));
             String str_role = rs.getString("role");
             switch (str_role) {
                 case "ADMIN":
@@ -69,7 +73,7 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
 
     @Override
     public void toggleUser(User user) {
-        String req = String.format("UPDATE User SET role = '%s' WHERE id = %d", user.getRole().toString(), user.getIdUser());
+        String req = String.format("UPDATE \"public\".\"User\" SET role = '%s' WHERE id = %d", user.getRole().toString(), user.getIdUser());
         try {
             this.initPreparedStatement(req);
             this.ps.executeUpdate();
@@ -80,7 +84,7 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
 
     @Override
     public User getUserById(int userId) {
-        String req = String.format("SELECT * FROM User WHERE id = %d", userId);
+        String req = String.format("SELECT * FROM \"public\".\"User\" WHERE id = %d", userId);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -96,7 +100,7 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
 
     @Override
     public User selectByLogin(String login) {
-        String req = String.format("SELECT * FROM User WHERE login = '%s'", login);
+        String req = String.format("SELECT * FROM \"public\".\"User\" WHERE login = '%s'", login);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();
@@ -112,7 +116,7 @@ public class UserRepositoryImplDB extends DatabaseImpl implements UserRepository
 
     @Override
     public User selectByMail(String mail) {
-        String req = String.format("SELECT * FROM User WHERE email = '%s'", mail);
+        String req = String.format("SELECT * FROM \"public\".\"User\" WHERE email = '%s'", mail);
         try {
             this.initPreparedStatement(req);
             ResultSet rs = this.ps.executeQuery();

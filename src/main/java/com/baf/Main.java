@@ -183,8 +183,9 @@ public class Main {
                                     break;
                                 }
                                 debtRequestView.liste(debtRequestServ.selectAll());
-                                int subChoiceFilter = debtRequestView.subMenuFilter();
+                                int subChoiceFilter ;
                                 do {
+                                     subChoiceFilter = debtRequestView.subMenuFilter();
                                     switch (subChoiceFilter) {
                                         case 1:
                                             debtRequestView.liste(debtRequestServ.selectPendingRequestsForCl(client));

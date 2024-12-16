@@ -28,7 +28,7 @@ public class FactoryService {
     private static DebtRequestServ debtRequestService;
     private static DetailDebtRequestService detailDebtRequestService;
     private static DetailDebtService detailDebtService;
-
+    private static DetailDebtRequestService detailDebt;
     // Méthode pour créer ou récupérer une instance de ClientService
     public static ClientService createClientService() {
         if (clientService == null) {
@@ -92,4 +92,6 @@ public class FactoryService {
         }
         return detailDebtService;
     }
+
+
 }
